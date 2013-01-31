@@ -1,0 +1,165 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectGuid>{D393210E-C7BE-4338-9362-F282B9DB3403}</ProjectGuid>
+    <ProjectTypeGuids>{6D335F3A-9D43-41b4-9D22-F6F17C4BE596};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>JdGameBase</RootNamespace>
+    <AssemblyName>JdGameBase</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <XnaFrameworkVersion>v4.0</XnaFrameworkVersion>
+    <XnaPlatform>Windows</XnaPlatform>
+    <XnaProfile>HiDef</XnaProfile>
+    <XnaCrossPlatformGroupID>93f557eb-54f2-4562-bc09-7924c05abe98</XnaCrossPlatformGroupID>
+    <XnaOutputType>Library</XnaOutputType>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\x86\Debug</OutputPath>
+    <DefineConstants>DEBUG;TRACE;WINDOWS</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <NoStdLib>true</NoStdLib>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <PlatformTarget>x86</PlatformTarget>
+    <XnaCompressContent>false</XnaCompressContent>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\x86\Release</OutputPath>
+    <DefineConstants>TRACE;WINDOWS</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <NoStdLib>true</NoStdLib>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <PlatformTarget>x86</PlatformTarget>
+    <XnaCompressContent>true</XnaCompressContent>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="JetBrains.Annotations">
+      <HintPath>..\packages\JetBrains.Annotations.7.0\lib\net40\JetBrains.Annotations.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Xna.Framework, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Microsoft.Xna.Framework.Game, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Microsoft.Xna.Framework.Graphics, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Microsoft.Xna.Framework.GamerServices, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Microsoft.Xna.Framework.Xact, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Microsoft.Xna.Framework.Video, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Microsoft.Xna.Framework.Avatar, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Microsoft.Xna.Framework.Net, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Microsoft.Xna.Framework.Storage, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="mscorlib">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Xml">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Net">
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Core\Interfaces\IEntity.cs" />
+    <Compile Include="Extensions\GameExtensions.cs" />
+    <Compile Include="Extensions\GeneralExtensions.cs" />
+    <Compile Include="Extensions\MathExtensions.cs" />
+    <Compile Include="Extensions\ServiceExtensions.cs" />
+    <Compile Include="Core\GameComponents\JdComponent.cs" />
+    <Compile Include="Core\GameComponents\JdDrawableComponent.cs" />
+    <Compile Include="Core\GameComponents\JdGame.cs" />
+    <Compile Include="Core\GameEventArgs.cs" />
+    <Compile Include="Core\Geometry\Circle.cs" />
+    <Compile Include="Core\Geometry\Line.cs" />
+    <Compile Include="Core\Geometry\Polygon.cs" />
+    <Compile Include="Graphics\AnimatedSprite.cs" />
+    <Compile Include="Graphics\Camera2D.cs" />
+    <Compile Include="Graphics\ColorTexture.cs" />
+    <Compile Include="Graphics\Focusable.cs" />
+    <Compile Include="Graphics\FocusPoint.cs" />
+    <Compile Include="Graphics\Sprite.cs" />
+    <Compile Include="Core\Interfaces\ICamera2D.cs" />
+    <Compile Include="Core\Interfaces\IContentSerializable.cs" />
+    <Compile Include="Core\Interfaces\IDrawableEntity.cs" />
+    <Compile Include="Core\Entity.cs" />
+    <Compile Include="Core\Interfaces\IFocusable.cs" />
+    <Compile Include="Core\Interfaces\IGamePadHandler.cs" />
+    <Compile Include="Core\Interfaces\IInputHandler.cs" />
+    <Compile Include="Core\Interfaces\IKeyboardHandler.cs" />
+    <Compile Include="Core\Interfaces\IMouseHandler.cs" />
+    <Compile Include="Core\Interfaces\IUpdatableEntity.cs" />
+    <Compile Include="Interpolators\FloatInterpolator.cs" />
+    <Compile Include="Interpolators\Interpolator.cs" />
+    <Compile Include="Interpolators\Vector2Interpolator.cs" />
+    <Compile Include="Interpolators\Vector3Interpolator.cs" />
+    <Compile Include="Interpolators\Vector4Interpolator.cs" />
+    <Compile Include="Parallax\Anchor.cs" />
+    <Compile Include="Parallax\Layer.cs" />
+    <Compile Include="Parallax\ParallaxManager.cs" />
+    <Compile Include="Particles\Emitter.cs" />
+    <Compile Include="Particles\Entities\Explosion.cs" />
+    <Compile Include="Particles\Entities\ExplosionConfig.cs" />
+    <Compile Include="Particles\Entities\Fireball.cs" />
+    <Compile Include="Particles\Entities\FireballConfig.cs" />
+    <Compile Include="Particles\Entities\ParticleEntity.cs" />
+    <Compile Include="Particles\Particle.cs" />
+    <Compile Include="Particles\ParticleBehavior.cs" />
+    <Compile Include="Particles\ParticleConfig.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Core\Services\EntityManager.cs" />
+    <Compile Include="Core\Services\FrameRateCounter.cs" />
+    <Compile Include="Core\Services\InputManager.cs" />
+    <Compile Include="Core\Services\ParticleCounter.cs" />
+    <Compile Include="Core\Services\TimescaleManager.cs" />
+    <Compile Include="Core\Utilities.cs" />
+    <Compile Include="Utils\Pool.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\Microsoft.Xna.GameStudio.targets" />
+  <!--
+      To modify your build process, add your task inside one of the targets below and uncomment it. 
+      Other similar extension points exist, see Microsoft.Common.targets.
+      <Target Name="BeforeBuild">
+      </Target>
+      <Target Name="AfterBuild">
+      </Target>
+    -->
+</Project>
