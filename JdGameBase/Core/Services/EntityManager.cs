@@ -54,7 +54,7 @@ namespace JdGameBase.Core.Services {
             };
 
             _drawables.ForEach(x => x.Draw(spriteBatch));
-            if (_containsCamera) _entities.FindAll(x => _camera.IsInView(x)).ForEach(draw);
+            if (_containsCamera) _entities.FindAll(x => _camera.IsInView(x) || x.AlwaysDraw).ForEach(draw);
             else _entities.ForEach(draw);
         }
 
@@ -117,7 +117,9 @@ namespace JdGameBase.Core.Services {
 
         #region IDrawableEntity
 
-        public void RegisterEntity(IDrawableEntity entity) { }
+        public void RegisterEntity(IDrawableEntity entity) {
+            _drawables.Add(entity);
+        }
 
         public void RegisterEntity(IEnumerable<IDrawableEntity> ents) {
             _drawables.AddRange(ents);

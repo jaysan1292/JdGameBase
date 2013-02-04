@@ -65,8 +65,6 @@ namespace JdGameBase.Particles.Entities {
             }
         }
 
-        public Rectangle BoundingBox { get; private set; }
-
         public void SetTexture(Texture2D texture, bool overwrite = false) {
             _one.SetTexture(texture, overwrite);
             _two.SetTexture(texture, overwrite);

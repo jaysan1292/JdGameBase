@@ -5,6 +5,9 @@
 
 using System;
 
+using JdGameBase.Core.Services;
+using JdGameBase.Extensions;
+
 using Microsoft.Xna.Framework;
 
 namespace JdGameBase.Core.GameComponents {
@@ -13,7 +16,7 @@ namespace JdGameBase.Core.GameComponents {
             : base(game) { }
 
         public override void Update(GameTime gameTime) {
-            var delta = (float) gameTime.ElapsedGameTime.TotalSeconds;
+            var delta = Game.GetService<TimeScaleManager>().UpdateTimescale(gameTime);
             Update(delta);
             base.Update(gameTime);
         }

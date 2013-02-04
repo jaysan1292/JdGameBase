@@ -11,8 +11,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace JdGameBase.Core {
-    public abstract class Entity : IEntity {
-        protected bool AlwaysVisible;
+    public abstract class Entity : IUpdatableEntity, IDrawableEntity {
+        public virtual bool AlwaysDraw { get { return false; } }
         public virtual Rectangle BoundingBox { get { return Rectangle.Empty; } }
         public abstract void Draw(SpriteBatch spriteBatch);
         public abstract void Update(float delta);

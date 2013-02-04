@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace JdGameBase.Core.Interfaces {
-    public interface IDrawableEntity {
+    public interface IDrawableEntity :IEntity{
         void Draw(SpriteBatch spriteBatch);
     }
 }

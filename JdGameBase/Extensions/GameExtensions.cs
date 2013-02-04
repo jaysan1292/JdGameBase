@@ -1,13 +1,8 @@
-// Project: JdGameBase
-// Filename: GameExtensions.cs
-// 
-// Author: Jason Recillo
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-using JdGameBase.Core.Geometry;
+using JdGameBase.Core.Primitives;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -95,6 +90,26 @@ namespace JdGameBase.Extensions {
 
         public static Vector2 GetPosition(this MouseState mouse) {
             return new Vector2(mouse.X, mouse.Y);
+        }
+
+        public static bool AreKeysDown(this KeyboardState ks, Keys k1, params Keys[] keys) {
+            return ks.IsKeyDown(k1) && keys.All(ks.IsKeyDown);
+        }
+
+        public static bool AreKeysUp(this KeyboardState ks, Keys k1, params Keys[] keys) {
+            return ks.IsKeyUp(k1) && keys.All(ks.IsKeyUp);
+        }
+
+        public static bool IsAnyKeyDown(this KeyboardState ks, Keys k1, params Keys[] keys) {
+            return ks.IsKeyDown(k1) || keys.Any(ks.IsKeyDown);
+        }
+
+        public static bool IsAnyKeyUp(this KeyboardState ks, Keys k1, params Keys[] keys) {
+            return ks.IsKeyUp(k1) || keys.Any(ks.IsKeyUp);
+        }
+
+        public static bool WasKeyJustPressed(this KeyboardState ks, KeyboardState old, Keys key) {
+            return ks.IsKeyDown(key) && old.IsKeyUp(key);
         }
 
         #endregion

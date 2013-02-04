@@ -52,6 +52,11 @@ namespace JdGameBase.Core.GameComponents {
             base.LoadContent();
         }
 
+        protected override void UnloadContent() {
+            SpriteBatch.Dispose();
+            base.UnloadContent();
+        }
+
         protected override void Update(GameTime gameTime) {
             _frameRateCounter.Update(gameTime);
             var delta = TimeScaleManager.UpdateTimescale(gameTime);

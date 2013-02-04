@@ -1,106 +1,31 @@
-// Project: JdGameBase
-// Filename: Layer.cs
-// 
-// Author: Jason Recillo
-
 using System;
 
-using JdGameBase.Extensions;
+using JdGameBase.Graphics;
 
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace JdGameBase.Parallax {
     public class Layer {
-        public readonly string Name;
-        public readonly float ParallaxFactor;
-        public readonly float PositionY;
-        public readonly float Scale;
-        public readonly Texture2D Texture;
-        private float _scrollX;
+        public readonly bool IsSeamless;
+        public readonly int Order;
+        public readonly Sprite Sprite;
+        public Vector2 Parallax;
 
-        #region Constructors
-
-        private Layer(Texture2D texture, string name, float factor) {
-            Texture = texture;
-            ParallaxFactor = factor;
-            Name = name;
-        }
-
-        private Layer(ContentManager content, string name, float factor)
-            : this(content.Load<Texture2D>(name), name, factor) { }
-
-        private Layer(Texture2D texture, string name, float factor, float scale)
-            : this(texture, name, factor) {
-            Scale = scale;
-        }
-
-        private Layer(ContentManager content, string name, float factor, float scale)
-            : this(content, name, factor) {
-            Scale = scale;
-        }
-
-        public Layer(Texture2D texture, string name, float factor, float scale, float yPosition)
-            : this(texture, name, factor, scale) {
-            PositionY = yPosition;
-        }
-
-        public Layer(ContentManager content, string name, float factor, float scale, float yPosition)
-            : this(content, name, factor, scale) {
-            PositionY = yPosition;
-        }
-
-        public Layer(Texture2D texture, string name, float factor, bool fullscreen, Rectangle renderingArea)
-            : this(texture, name, factor) {
-            if (fullscreen)
-                Scale = (float) renderingArea.Width / Texture.Width;
-            else
-                Scale = 1f;
-        }
-
-        public Layer(ContentManager content, string name, float factor, bool fullscreen, Rectangle renderingArea)
-            : this(content, name, factor) {
-            if (fullscreen)
-                Scale = (float) renderingArea.Width / Texture.Width;
-            else
-                Scale = 1f;
-        }
-
-        public Layer(Texture2D texture, string name, float factor, float scale, Anchor anchor, Rectangle renderingArea)
-            : this(texture, name, factor, scale) {
-            switch (anchor) {
-                case Anchor.Top:
-                    PositionY = 0;
-                    break;
-                case Anchor.Bottom:
-                    PositionY = renderingArea.Height - (Texture.Height * scale);
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException("anchor");
+        public Layer(Sprite sprite, int zOrder, Vector2 parallax, bool seamless = false) {
+            if (!sprite.SourceRect.HasValue) throw new ArgumentException("sprite must have a source rectangle");
+            if (sprite.SourceRect != sprite.Texture.Bounds) {
+                var srect = sprite.SourceRect.Value;
+                var tex = new Texture2D(sprite.Texture.GraphicsDevice, srect.Width, srect.Height);
+                var data = new Color[srect.Width * srect.Height];
+                sprite.Texture.GetData(0, srect, data, 0, data.Length);
+                tex.SetData(data);
+                sprite.Texture = tex;
             }
-        }
-
-        public Layer(ContentManager manager, string name, float factor, float scale, Anchor anchor, Rectangle renderingArea)
-            : this(manager, name, factor, scale) {
-            switch (anchor) {
-                case Anchor.Top:
-                    PositionY = 0;
-                    break;
-                case Anchor.Bottom:
-                    PositionY = renderingArea.Height - (Texture.Height * scale);
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException("anchor");
-            }
-        }
-
-        #endregion
-
-        public float ScrollX { get { return _scrollX; } set { _scrollX = Math.Abs(value) > (Texture.Width * Scale) ? 0 : value; } }
-
-        public override string ToString() {
-            return "Texture: {0}, factor: {1}, X: {2}, Y: {3}".Fmt(Name, ParallaxFactor, ScrollX, PositionY);
+            Sprite = sprite;
+            Order = zOrder;
+            Parallax = parallax;
+            IsSeamless = seamless;
         }
     }
 }

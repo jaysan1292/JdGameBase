@@ -28,17 +28,17 @@ namespace JdGameBase.Core.Interfaces {
         float Rotation { get; set; }
 
         /// <summary>
-        /// Gets the origin of the viewport (accounts for Scale).
+        /// Gets the origin of the viewport (accounts for Zoom).
         /// </summary>
         Vector2 Origin { get; }
 
         /// <summary>
         /// Gets or sets the scale of the camera.
         /// </summary>
-        float Scale { get; set; }
+        float Zoom { get; set; }
 
         /// <summary>
-        /// Gets the screen center (does not account for Scale).
+        /// Gets the screen center (does not account for Zoom).
         /// </summary>
         Vector2 ScreenCenter { get; }
 

@@ -1,69 +1,76 @@
-// Project: JdGameBase
-// Filename: ParallaxManager.cs
-// 
-// Author: Jason Recillo
-
-using System;
-using System.Collections;
+﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
-using JdGameBase.Core;
+using JdGameBase.Core.GameComponents;
+using JdGameBase.Extensions;
+using JdGameBase.Graphics;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-//TODO: Redo using Camera2D class
-
 namespace JdGameBase.Parallax {
-    public class ParallaxManager : Entity, IEnumerable<Layer> {
+    public class ParallaxManager : JdDrawableComponent {
+        private readonly Camera2D _camera;
         private readonly List<Layer> _layers;
-        public Rectangle RenderingArea;
+        private readonly SpriteBatch _spriteBatch;
+        private Rectangle _viewport;
 
-        public ParallaxManager(Rectangle visibleArea) {
+        public ParallaxManager(Game game)
+            : base(game) {
             _layers = new List<Layer>();
-            RenderingArea = visibleArea;
-        }
-
-        private float BaseLayerSortValue { get { return (float) 1 / _layers.Count; } }
-
-        public float ScrollSpeedX { get; set; }
-
-        public override Rectangle BoundingBox { get { return RenderingArea; } }
-
-        public IEnumerator<Layer> GetEnumerator() {
-            return _layers.GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator() {
-            return GetEnumerator();
-        }
-
-        public override void Draw(SpriteBatch spriteBatch) {
-            var sortValue = BaseLayerSortValue;
-            var originalSort = sortValue;
-            foreach (var l in _layers) {
-                var tex = l.Texture;
-                var srcRect = new Rectangle((int) (-l.ScrollX), 0, RenderingArea.Width, tex.Height);
-                spriteBatch.Draw(tex, new Vector2(0, l.PositionY), srcRect, Color.White, 0, Vector2.Zero, l.Scale, SpriteEffects.None, sortValue);
-
-                sortValue += originalSort;
-            }
-        }
-
-        public override void Update(float delta) {
-            foreach (var layer in _layers) layer.ScrollX += ScrollSpeedX * layer.ParallaxFactor * delta / layer.Scale;
+            _spriteBatch = new SpriteBatch(game.GraphicsDevice);
+            var camera = game.GetComponent<Camera2D>();
+            if (camera == null) throw new ArgumentException("Game does not contain a Camera2D component.");
+            _camera = camera;
+            _viewport = new Rectangle(0, 0, game.GraphicsDevice.Viewport.Width, game.GraphicsDevice.Viewport.Height);
         }
 
         public void Add(Layer layer) {
             _layers.Add(layer);
+
+            _layers.Sort((a, b) => a.Order.CompareTo(b.Order));
         }
 
-        public float GetLayerSortOrder(string name) {
-            for (var i = 0; i < _layers.Count; i++) {
-                var layer = _layers[i];
-                if (layer.Name == name) return BaseLayerSortValue * i;
-            }
-            throw new ArgumentException("Layer not found", "name");
+        public override void Draw(GameTime gameTime) {
+            _layers.ForEach(x => DrawParallaxLayer(_spriteBatch, x));
+            base.Draw(gameTime);
+        }
+
+        private void DrawParallaxLayer(SpriteBatch sb, Layer layer) {
+            //            var samplerstate = layer.IsSeamless ? SamplerState.PointWrap : SamplerState.PointClamp;
+
+            sb.Begin(SpriteSortMode.FrontToBack, null, SamplerState.AnisotropicWrap, null,
+                     null, null, _camera.GetViewMatrix(layer.Parallax));
+
+            var wh = new Vector2(_viewport.Width, 0);
+            wh = _camera.ScreenToWorld(wh, layer.Parallax);
+
+            var spr = layer.Sprite;
+            var rect = layer.IsSeamless ?
+                           new Rectangle((int) (-spr.Position.X), 0, (int) wh.X, spr.Texture.Height) :
+                           spr.SourceRect;
+
+            sb.Draw(spr.Texture,
+                    spr.Position,
+                    rect,
+                    spr.Color,
+                    spr.Rotation,
+                    spr.Origin,
+                    spr.Scale,
+                    spr.Effects,
+                    GetLayerSortOrder(layer.Order));
+
+            sb.End();
+        }
+
+        private float GetLayerSortOrder(int order) {
+            if (_layers.Count == 0) return 0f;
+            return (1f / _layers.Count) * order;
+        }
+
+        public override string ToString() {
+            return "{{{0}}}".Fmt(_layers.Aggregate("", (s, l) => { return s + "{0}".Fmt(l.Order); }));
         }
     }
 }

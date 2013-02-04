@@ -30,8 +30,6 @@ namespace JdGameBase.Particles {
             if (OnParticleCreated != null) OnParticleCreated.Invoke(this, GameEventArgs.Empty);
         }
 
-        public Rectangle BoundingBox { get; private set; }
-
         public override void Draw(SpriteBatch spriteBatch) {
             if (!Alive) return;
             var center = new Vector2(Texture.Width / 2f, Texture.Height / 2f);

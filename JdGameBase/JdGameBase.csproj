@@ -95,7 +95,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\Interfaces\ICollisionEntity.cs" />
     <Compile Include="Core\Interfaces\IEntity.cs" />
+    <Compile Include="Core\Primitives\Ellipse.cs" />
     <Compile Include="Extensions\GameExtensions.cs" />
     <Compile Include="Extensions\GeneralExtensions.cs" />
     <Compile Include="Extensions\MathExtensions.cs" />
@@ -104,14 +106,15 @@
     <Compile Include="Core\GameComponents\JdDrawableComponent.cs" />
     <Compile Include="Core\GameComponents\JdGame.cs" />
     <Compile Include="Core\GameEventArgs.cs" />
-    <Compile Include="Core\Geometry\Circle.cs" />
-    <Compile Include="Core\Geometry\Line.cs" />
-    <Compile Include="Core\Geometry\Polygon.cs" />
+    <Compile Include="Core\Primitives\Circle.cs" />
+    <Compile Include="Core\Primitives\Line.cs" />
+    <Compile Include="Core\Primitives\Polygon.cs" />
     <Compile Include="Graphics\AnimatedSprite.cs" />
     <Compile Include="Graphics\Camera2D.cs" />
     <Compile Include="Graphics\ColorTexture.cs" />
     <Compile Include="Graphics\Focusable.cs" />
     <Compile Include="Graphics\FocusPoint.cs" />
+    <Compile Include="Core\Interfaces\ISprite.cs" />
     <Compile Include="Graphics\Sprite.cs" />
     <Compile Include="Core\Interfaces\ICamera2D.cs" />
     <Compile Include="Core\Interfaces\IContentSerializable.cs" />
@@ -123,12 +126,12 @@
     <Compile Include="Core\Interfaces\IKeyboardHandler.cs" />
     <Compile Include="Core\Interfaces\IMouseHandler.cs" />
     <Compile Include="Core\Interfaces\IUpdatableEntity.cs" />
+    <Compile Include="Graphics\SpriteSheet.cs" />
     <Compile Include="Interpolators\FloatInterpolator.cs" />
     <Compile Include="Interpolators\Interpolator.cs" />
     <Compile Include="Interpolators\Vector2Interpolator.cs" />
     <Compile Include="Interpolators\Vector3Interpolator.cs" />
     <Compile Include="Interpolators\Vector4Interpolator.cs" />
-    <Compile Include="Parallax\Anchor.cs" />
     <Compile Include="Parallax\Layer.cs" />
     <Compile Include="Parallax\ParallaxManager.cs" />
     <Compile Include="Particles\Emitter.cs" />
@@ -148,6 +151,7 @@
     <Compile Include="Core\Services\TimescaleManager.cs" />
     <Compile Include="Core\Utilities.cs" />
     <Compile Include="Utils\Pool.cs" />
+    <Compile Include="Utils\Timer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
