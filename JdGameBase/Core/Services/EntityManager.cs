@@ -4,6 +4,7 @@
 // Author: Jason Recillo
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -16,6 +17,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace JdGameBase.Core.Services {
     public class EntityManager {
+        //TODO: Remove _drawables and _updatables as IDrawableEntity and IUpdatableEntity now inherity IEntity
         private readonly Camera2D _camera;
         private readonly bool _containsCamera;
         private readonly Texture2D _debugTexture;
@@ -80,6 +82,49 @@ namespace JdGameBase.Core.Services {
                     where entity.GetType().IsDerivedFrom<T>()
                     select (T) entity).ToList();
         }
+
+        #region Entity Manipulation
+
+        public void MoveUp(Entity entity) {
+            if (!_entities.Contains(entity)) return;
+            var idx = _entities.IndexOf(entity);
+
+            if (idx == 0) return;
+            _entities.Swap(idx, idx - 1);
+        }
+
+        public void MoveDown(Entity entity) {
+            if (!_entities.Contains(entity)) return;
+            var idx = _entities.IndexOf(entity);
+
+            if (idx == 0) return;
+            _entities.Swap(idx, idx + 1);
+        }
+
+        public void MoveBefore(Entity ent, Entity target) {
+            if (!_entities.Contains(ent) || !_entities.Contains(target)) return;
+            var entIdx = _entities.IndexOf(ent);
+            var targetIdx = _entities.IndexOf(target);
+
+            if (entIdx < targetIdx) return;
+            _entities.Swap(entIdx, targetIdx);
+        }
+
+        public void MoveAfter(Entity ent, Entity target) {
+            if (!_entities.Contains(ent) || !_entities.Contains(target)) return;
+            var entIdx = _entities.IndexOf(ent);
+            var targetIdx = _entities.IndexOf(target);
+
+            if (entIdx > targetIdx) return;
+            _entities.Swap(entIdx, targetIdx);
+        }
+
+        public void Swap(Entity one, Entity two) {
+            if (!_entities.Contains(one) || !_entities.Contains(two)) return;
+            _entities.Swap(one, two);
+        }
+
+        #endregion
 
         #region Entity Registration/Unregistration
 

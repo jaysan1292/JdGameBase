@@ -25,9 +25,20 @@ namespace JdGameBase.Graphics {
         private Rectangle[] _frames;
         private Rectangle? _sheetRect;
         private float _timeSinceLastFrame;
+        private bool _active;
+
+        public bool Active {
+            get { return _active; }
+            set {
+                _active = value;
+                if (!value) ResetAnimation();
+            }
+        }
 
         public Rectangle? SheetRect { get { return _sheetRect; } }
         public float FrameRate { get { return _frameRate; } }
+
+        public event EventHandler OnAnimationCompleted;
 
         #region ISprite Implementation
 
@@ -52,6 +63,7 @@ namespace JdGameBase.Graphics {
             _currentFrame = 0;
             _bounce = bounce;
             _forward = true;
+            Active = true;
         }
 
         public AnimatedSprite(AnimatedSprite sprite) {
@@ -75,7 +87,7 @@ namespace JdGameBase.Graphics {
         }
 
         public AnimatedSprite(float frameRate, int cols, int rows, bool bounce = false)
-            : this(null, null, frameRate, cols, rows, bounce: bounce) { }
+            : this(null, null, frameRate, cols, rows, bounce) { }
 
         public AnimatedSprite(Rectangle? sourceRect, float frameRate, int cols, int rows, bool bounce = false)
             : this(null, sourceRect, frameRate, cols, rows, bounce) { }
@@ -112,11 +124,25 @@ namespace JdGameBase.Graphics {
 
         #endregion
 
+        public void ResetAnimation() {
+            _currentFrame = 0;
+            _shouldInvokeEvent = false;
+            _timeSinceLastFrame = 0f;
+            _forward = true;
+        }
+
+        private bool _shouldInvokeEvent;
+
         public override void Draw(SpriteBatch spriteBatch) {
+            if (!Active) return;
             _spriteSheet.Draw(spriteBatch);
+
+            // TODO: When in a SpriteSheet, Update() is called regardless of whether this sprite is being drawn, causing its AnimationCompleted event to fire when not needed.
+            if (_shouldInvokeEvent && OnAnimationCompleted != null) OnAnimationCompleted.Invoke(this, EventArgs.Empty);
         }
 
         public override void Update(float delta) {
+            if (!Active) return;
             _timeSinceLastFrame += delta;
 
             if (!(_timeSinceLastFrame > _frameRate)) return;
@@ -127,6 +153,9 @@ namespace JdGameBase.Graphics {
                     _forward = !_forward;
                 _currentFrame += _forward ? 1 : -1;
             } else _currentFrame = (_currentFrame + 1) % _frames.Length;
+
+            if (_currentFrame == 0) _shouldInvokeEvent = false;
+            _shouldInvokeEvent = (_currentFrame == _frames.Length - 1);
 
             _spriteSheet.SourceRect = _frames[_currentFrame];
             _timeSinceLastFrame = 0f;
