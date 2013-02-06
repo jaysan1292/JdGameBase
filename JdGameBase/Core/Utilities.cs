@@ -4,6 +4,7 @@
 // Author: Jason Recillo
 
 using System;
+using System.Diagnostics;
 using System.Linq;
 
 using Microsoft.Xna.Framework;
@@ -14,29 +15,42 @@ namespace JdGameBase.Core {
 
         #region Random
 
+        [DebuggerHidden]
         public static float RandomWithinRange(float min, float max) {
             return MathHelper.Lerp(min, max, (float) Random.NextDouble());
         }
 
+        [DebuggerHidden]
         public static Vector2 RandomWithinRectangle(Rectangle rect) {
             return new Vector2(Random.Next(rect.X, rect.X + rect.Width),
                                Random.Next(rect.Y, rect.Y + rect.Height));
         }
 
+        [DebuggerHidden]
         public static Vector2 RandomVelocity(Random random, float maxSpeed) {
             return Vector2.Transform(new Vector2((float) random.NextDouble() * maxSpeed, 0),
                                      Matrix.CreateRotationZ(MathHelper.ToRadians((float) (random.NextDouble() * 360))));
         }
 
+        /// <param name="percentage">An integer from 1 to 100.</param>
+        [DebuggerHidden]
         public static bool Chance(int percentage) {
             var chance = percentage + Random.Next(1, 100);
             return chance >= 100;
+        }
+
+        /// <param name="percentage">A floating-point number between 0 and 1.</param>
+        [DebuggerHidden]
+        public static bool Chance(float percentage) {
+            var chance = Random.NextDouble();
+            return percentage >= chance;
         }
 
         #endregion
 
         #region Vectors
 
+        [DebuggerHidden]
         public static void ConstrainPositionWithinScreen(ref Vector2 position, Rectangle screenSize) {
             if (position.X < 0) position.X = 0;
             if (position.X > screenSize.Width) position.X = screenSize.Width;
@@ -44,14 +58,17 @@ namespace JdGameBase.Core {
             if (position.Y > screenSize.Height) position.Y = screenSize.Height;
         }
 
+        [DebuggerHidden]
         public static Vector2 AngleToVector2(float angle, float length = 1f) {
             return new Vector2((float) Math.Cos(angle), (float) Math.Sin(angle)) * length;
         }
 
+        [DebuggerHidden]
         public static float Vector2ToAngle(Vector2 vector) {
             return (float) Math.Atan2(vector.Y, vector.X);
         }
 
+        [DebuggerHidden]
         public static Vector2 RotateVector(Vector2 vector, float angle) {
             return Vector2.Transform(vector, Matrix.CreateRotationZ(MathHelper.ToRadians(angle)));
         }
@@ -62,10 +79,12 @@ namespace JdGameBase.Core {
 
         // http://www.cs.rit.edu/~ncs/color/t_convert.html
 
+        [DebuggerHidden]
         public static float[] ColorRgbtoHsv(Color color) {
             return ColorRgbToHsv(color.R, color.G, color.B);
         }
 
+        [DebuggerHidden]
         public static float[] ColorRgbToHsv(float r, float g, float b) {
             const float epsilon = 0.00001f;
             float h = 0, s, v;
@@ -99,6 +118,7 @@ namespace JdGameBase.Core {
         /// <param name="s">Saturation: 0-1</param>
         /// <param name="v">Value: 0-1</param>
         /// <returns></returns>
+        [DebuggerHidden]
         public static Color ColorHsvToRgb(float h, float s, float v) {
             const float epsilon = 0.00001f;
             float r, g, b;
@@ -149,12 +169,14 @@ namespace JdGameBase.Core {
             return new Color(r, g, b);
         }
 
+        [DebuggerHidden]
         private static float Min(params float[] args) {
             if (args == null) throw new ArgumentNullException("args");
             if (args.Length == 0) throw new ArgumentException("args must contain at least one value");
             return args.Min();
         }
 
+        [DebuggerHidden]
         private static float Max(params float[] args) {
             if (args == null) throw new ArgumentNullException("args");
             if (args.Length == 0) throw new ArgumentException("args must contain at least one value");
