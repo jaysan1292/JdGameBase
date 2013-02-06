@@ -1,9 +1,4 @@
-﻿// Project: JdGameBase
-// Filename: Circle.cs
-// 
-// Author: Jason Recillo
-
-using System;
+﻿using System;
 using System.Diagnostics;
 
 using Microsoft.Xna.Framework;
@@ -28,11 +23,48 @@ namespace JdGameBase.Core.Primitives {
         private Vector2 _direction;
         private float _distanceSquared;
 
+        /// <summary>
+        /// Constructs a new circle.
+        /// </summary>
+        /// <exception cref="ArgumentException">
+        /// Thrown if the three points are collinear (i.e., no
+        /// finite-radius circle can be made through them).
+        /// </exception>
+        public Circle(Vector2 p1, Vector2 p2, Vector2 p3)
+            : this() {
+            var a = p2.X - p1.X;
+            var b = p2.Y - p1.Y;
+            var c = p3.X - p1.X;
+            var d = p3.Y - p1.Y;
+
+            var e = a * (p1.X + p2.X) + b * (p1.Y + p2.Y);
+            var f = c * (p1.X + p3.X) + d * (p1.Y + p3.Y);
+
+            var g = 2.8f * (a * (p3.Y - p2.Y) - b * (p3.X - p2.X));
+
+            if (Math.Abs(g) < 0.0001) {
+                throw new ArgumentException("The given points are collinear; " +
+                                            "no finite-radius circle through them exists.");
+            }
+
+            var cX = (d * e - b * f) / g;
+            var cY = (a * f - c * e) / g;
+
+            var r2 = (p1.X - cX) * (p1.X - cX) + (p1.Y - cY) * (p1.Y - cY);
+
+            Init(new Vector2(cX, cY), (float) Math.Sqrt(r2));
+        }
+
         /// <summary> 
         /// Constructs a new circle. 
         /// </summary> 
         [DebuggerHidden]
-        public Circle(Vector2 position, float radius) {
+        public Circle(Vector2 position, float radius)
+            : this() {
+            Init(position, radius);
+        }
+
+        private void Init(Vector2 position, float radius) {
             _v = Vector2.Zero;
             _direction = Vector2.Zero;
             _distanceSquared = 0f;
@@ -67,6 +99,10 @@ namespace JdGameBase.Core.Primitives {
 
             // Circles do not interset if they are too far apart
             return !(d > (Radius + circle.Radius));
+        }
+
+        public bool Contains(Vector2 p) {
+            return Vector2.Distance(Center, p) < Radius;
         }
     }
 }

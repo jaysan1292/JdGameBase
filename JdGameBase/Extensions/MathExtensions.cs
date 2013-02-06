@@ -1,10 +1,7 @@
-﻿// Project: JdGameBase
-// Filename: MathExtensions.cs
-// 
-// Author: Jason Recillo
-
-using System;
+﻿using System;
 using System.Diagnostics;
+
+using JdGameBase.Core.Primitives;
 
 using Microsoft.Xna.Framework;
 
@@ -111,6 +108,16 @@ namespace JdGameBase.Extensions {
         }
 
         [DebuggerHidden]
+        public static Rectangle Grow(this Rectangle rect, int amount) {
+            return Shrink(rect, -amount, -amount);
+        }
+
+        [DebuggerHidden]
+        public static Rectangle Grow(this Rectangle rect, int xAmount, int yAmount) {
+            return Shrink(rect, -xAmount, -yAmount);
+        }
+
+        [DebuggerHidden]
         public static Rectangle Shrink(this Rectangle rect, int xAmount, int yAmount) {
             return new Rectangle {
                 X = rect.X + xAmount,
@@ -135,8 +142,57 @@ namespace JdGameBase.Extensions {
         }
 
         [DebuggerHidden]
+        public static Rectangle OffsetBy(this Rectangle rect, Vector2 offset) {
+            return new Rectangle {
+                X = (int) (rect.X + offset.X),
+                Y = (int) (rect.Y + offset.Y),
+                Width = rect.Width,
+                Height = rect.Height
+            };
+        }
+        [DebuggerHidden]
+        public static bool IntersectsTop(this Rectangle rect, Rectangle test) {
+            var line = new Line(rect.CenterVector(), test.CenterVector());
+            return line.Intersects(test.TopLine());
+        }
+        [DebuggerHidden]
+        public static bool IntersectsBottom(this Rectangle rect, Rectangle test) {
+            var line = new Line(rect.CenterVector(), test.CenterVector());
+            return line.Intersects(test.BottomLine());
+        }
+        [DebuggerHidden]
+        public static bool IntersectsLeft(this Rectangle rect, Rectangle test) {
+            var line = new Line(rect.CenterVector(), test.CenterVector());
+            return line.Intersects(test.LeftLine());
+        }
+        [DebuggerHidden]
+        public static bool IntersectsRight(this Rectangle rect, Rectangle test) {
+            var line = new Line(rect.CenterVector(), test.CenterVector());
+            return line.Intersects(test.RightLine());
+        }
+        [DebuggerHidden]
         public static Rectangle ToRectangle(this Vector2 vector, int width, int height) {
             return new Rectangle((int) vector.X, (int) vector.Y, width, height);
+        }
+
+        [DebuggerHidden]
+        public static Line TopLine(this Rectangle rect) {
+            return new Line(rect.TopLeft(), rect.TopRight());
+        }
+
+        [DebuggerHidden]
+        public static Line BottomLine(this Rectangle rect) {
+            return new Line(rect.BottomLeft(), rect.BottomRight());
+        }
+
+        [DebuggerHidden]
+        public static Line LeftLine(this Rectangle rect) {
+            return new Line(rect.TopLeft(), rect.BottomLeft());
+        }
+
+        [DebuggerHidden]
+        public static Line RightLine(this Rectangle rect) {
+            return new Line(rect.TopRight(), rect.BottomRight());
         }
 
         [DebuggerHidden]

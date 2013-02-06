@@ -1,9 +1,4 @@
-﻿// Project: JdGameBase
-// Filename: Line.cs
-// 
-// Author: Jason Recillo
-
-using System;
+﻿using System;
 using System.Diagnostics;
 
 using JdGameBase.Extensions;
@@ -30,6 +25,42 @@ namespace JdGameBase.Core.Primitives {
                 return new Vector2((Start.X + End.X) / 2,
                                    (Start.Y + End.Y) / 2);
             }
+        }
+
+        public bool Intersects(Line line) {
+            var ab = this;
+            var cd = line;
+            var a = ab.Start;
+            var b = ab.End;
+            var c = cd.Start;
+            var d = cd.End;
+
+            float r, s;
+            FindPoints(a, b, c, d, out r, out s);
+
+            return (0 <= r && r <= 1) && (0 <= s && s <= 1);
+        }
+
+        public Vector2 IntersectionPoint(Line line) {
+            var ab = this;
+            var cd = line;
+            var a = ab.Start;
+            var b = ab.End;
+            var c = cd.Start;
+            var d = cd.End;
+
+            float r, s;
+            FindPoints(a, b, c, d, out r, out s);
+
+            var p = a + r * (b - a);
+
+            return p;
+        }
+
+        private static void FindPoints(Vector2 a, Vector2 b, Vector2 c, Vector2 d, out float r, out float s) {
+            var denom = ((b.X - a.X) * (d.Y - c.Y) - (b.Y - a.Y) * (d.X - c.X));
+            r = ((a.Y - c.Y) * (d.X - c.X) - (a.X - c.X) * (d.Y - c.Y)) / denom;
+            s = ((a.Y - c.Y) * (b.X - a.X) - (a.X - c.X) * (b.Y - a.Y)) / denom;
         }
 
         [DebuggerHidden]
