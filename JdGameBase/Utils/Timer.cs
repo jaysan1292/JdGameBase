@@ -4,8 +4,6 @@ using JdGameBase.Core.Interfaces;
 
 namespace JdGameBase.Utils {
     public class Timer : IUpdatableEntity {
-        private float _currentTime;
-
         public Timer()
             : this(0, false, () => { }) {
             // Initialize to a default that does nothing
@@ -22,17 +20,18 @@ namespace JdGameBase.Utils {
         public bool IsLooping { get; set; }
         public float TimeLimit { get; set; }
         public Action Callback { get; set; }
+        public float CurrentTime { get; private set; }
 
         public void Update(float delta) {
             if (!Active) return;
 
-            _currentTime += delta;
-            if (_currentTime <= TimeLimit) return;
+            CurrentTime += delta;
+            if (CurrentTime <= TimeLimit) return;
 
             Callback();
 
             if (!IsLooping) Active = false;
-            _currentTime = 0f;
+            CurrentTime = 0f;
         }
 
         public void Pause() {
@@ -48,7 +47,7 @@ namespace JdGameBase.Utils {
         }
 
         public void Reset() {
-            _currentTime = 0;
+            CurrentTime = 0;
         }
     }
 }
