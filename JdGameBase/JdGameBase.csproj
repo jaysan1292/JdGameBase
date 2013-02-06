@@ -150,6 +150,7 @@
     <Compile Include="Core\Services\ParticleCounter.cs" />
     <Compile Include="Core\Services\TimescaleManager.cs" />
     <Compile Include="Core\Utilities.cs" />
+    <Compile Include="Utils\Noise.cs" />
     <Compile Include="Utils\Pool.cs" />
     <Compile Include="Utils\Timer.cs" />
   </ItemGroup>

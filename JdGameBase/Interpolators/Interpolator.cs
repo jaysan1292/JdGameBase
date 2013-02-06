@@ -14,23 +14,14 @@ namespace JdGameBase.Interpolators {
     /// </summary>
     /// <typeparam name="T"></typeparam>
     public abstract class Interpolator<T> {
+        public event EventHandler OnFinishedInterpolating;
         protected float CurrentDuration;
         public bool IsActive;
         protected bool SmoothStep;
         protected float TotalDuration;
-        protected T Value1;
+        public T Value1 { get; protected set; }
         public T Value2 { get; protected set; }
-        public T CurrentValue { get; private set; }
-
-        /// <summary>
-        /// Starts the Interpolator.
-        /// </summary>
-        /// <param name="value1">Value to start interpolation from</param>
-        /// <param name="value2">Value to interpolate to</param>
-        /// <param name="totalDuration">Time to interpolate from value1 to value2 in seconds</param>
-        public void Start(T value1, T value2, float totalDuration) {
-            Start(value1, value2, totalDuration, false);
-        }
+        public T CurrentValue { get; protected set; }
 
         /// <summary>
         /// Starts the interpolator.
@@ -39,7 +30,7 @@ namespace JdGameBase.Interpolators {
         /// <param name="value2"></param>
         /// <param name="totalDuration"></param>
         /// <param name="smoothStep">Use SmoothStep rather than Lerp</param>
-        public void Start(T value1, T value2, float totalDuration, bool smoothStep) {
+        public void Start(T value1, T value2, float totalDuration, bool smoothStep = false) {
             Value1 = value1;
             Value2 = value2;
             TotalDuration = totalDuration;
@@ -60,6 +51,7 @@ namespace JdGameBase.Interpolators {
             if (CurrentDuration > TotalDuration) {
                 CurrentDuration = TotalDuration;
                 IsActive = false;
+                if (OnFinishedInterpolating != null) OnFinishedInterpolating.Invoke(this, EventArgs.Empty);
             }
 
             return CurrentValue = Interpolate();
