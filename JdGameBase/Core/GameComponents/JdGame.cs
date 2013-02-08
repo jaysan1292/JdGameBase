@@ -25,6 +25,8 @@ namespace JdGameBase.Core.GameComponents {
 
         public JdGame() {
             _graphics = new GraphicsDeviceManager(this);
+            _graphics.SynchronizeWithVerticalRetrace = false;
+            IsFixedTimeStep = false;
             InputManager = new InputManager();
             TimeScaleManager = new TimeScaleManager();
             _frameRateCounter = new FrameRateCounter();
@@ -62,13 +64,15 @@ namespace JdGameBase.Core.GameComponents {
             var delta = TimeScaleManager.UpdateTimescale(gameTime);
 
             InputManager.HandleInput(delta, HandleKeyboardInput);
+#if !XBOX360
             InputManager.HandleInput(delta, HandleMouseInput);
+#endif
             InputManager.HandleInput(delta, PlayerIndex.One, HandleGamePadInput);
             InputManager.HandleInput(delta, PlayerIndex.Two, HandleGamePadInput);
             InputManager.HandleInput(delta, PlayerIndex.Three, HandleGamePadInput);
             InputManager.HandleInput(delta, PlayerIndex.Four, HandleGamePadInput);
 
-            Update(delta);
+            Update(delta, gameTime);
             base.Update(gameTime);
         }
 
@@ -77,6 +81,8 @@ namespace JdGameBase.Core.GameComponents {
             base.Draw(gameTime);
         }
 
-        public virtual void Update(float delta) { }
+        /// <param name="delta">Time passed since the last call to Update (affected by TimeScale).</param>
+        /// <param name="gameTime">Time passed since the last call to Update (unaffected by TimeScale).</param>
+        public virtual void Update(float delta, GameTime gameTime) { }
     }
 }

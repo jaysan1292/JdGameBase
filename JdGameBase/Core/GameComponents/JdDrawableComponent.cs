@@ -14,10 +14,15 @@ namespace JdGameBase.Core.GameComponents {
 
         public override void Update(GameTime gameTime) {
             var delta = (float) gameTime.ElapsedGameTime.TotalSeconds;
-            Update(delta);
+            Update(delta, gameTime);
             base.Update(gameTime);
         }
 
-        public virtual void Update(float delta) { }
+        /// <summary>
+        /// Called when this GameComponent needs to be updated. Override this method with component-specific update code.
+        /// </summary>
+        /// <param name="delta">Time elapsed since the last call to Update (affected by TimeScale).</param>
+        /// <param name="gameTime">Time elapsed since the last call to Update (unaffected by TimeScale).</param>
+        public virtual void Update(float delta, GameTime gameTime) { }
     }
 }
