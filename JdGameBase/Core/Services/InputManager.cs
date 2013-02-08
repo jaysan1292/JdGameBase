@@ -31,6 +31,7 @@ namespace JdGameBase.Core.Services {
 
         public void HandleInput(float delta, PlayerIndex idx, Action<float, PlayerIndex, GamePadState, GamePadState> action) {
             var gps = GamePad.GetState(idx);
+            if (!gps.IsConnected) return;
             switch (idx) {
                 case PlayerIndex.One:
                     HandleGamePadInput(delta, idx, action, gps, ref _oldGamePadState1);

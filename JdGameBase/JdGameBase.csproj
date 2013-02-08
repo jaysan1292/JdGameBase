@@ -127,6 +127,7 @@
     <Compile Include="Core\Interfaces\IMouseHandler.cs" />
     <Compile Include="Core\Interfaces\IUpdatableEntity.cs" />
     <Compile Include="Graphics\SpriteSheet.cs" />
+    <Compile Include="Interpolators\ColorInterpolator.cs" />
     <Compile Include="Interpolators\FloatInterpolator.cs" />
     <Compile Include="Interpolators\Interpolator.cs" />
     <Compile Include="Interpolators\Vector2Interpolator.cs" />

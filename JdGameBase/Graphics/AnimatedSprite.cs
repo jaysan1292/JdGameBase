@@ -11,6 +11,7 @@ using JdGameBase.Core;
 using JdGameBase.Core.Interfaces;
 
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace JdGameBase.Graphics {
@@ -43,7 +44,7 @@ namespace JdGameBase.Graphics {
         public Rectangle? SheetRect { get { return _sheetRect; } }
         public float FrameRate { get { return _frameRate; } }
 
-        public event EventHandler OnAnimationCompleted;
+        public event EventHandler<GameEventArgs> OnAnimationCompleted;
 
         #region ISprite Implementation
 
@@ -54,7 +55,10 @@ namespace JdGameBase.Graphics {
         public float Rotation { get { return _spriteSheet.Rotation; } set { _spriteSheet.Rotation = value; } }
         public float Scale { get { return _spriteSheet.Scale; } set { _spriteSheet.Scale = value; } }
         public Vector2 Position { get { return _spriteSheet.Position; } set { _spriteSheet.Position = value; } }
+
+        [ContentSerializerIgnore]
         public Texture2D Texture { get { return _spriteSheet.Texture; } set { InitTexture((_spriteSheet.Texture = value)); } }
+
         public Rectangle? SourceRect { get { return _frames[_currentFrame]; } set { throw new InvalidOperationException("Cannot modify source rectangle of animated sprite"); } }
 
         public float Width { get { return ((SourceRect.HasValue ? SourceRect.Value.Width : Texture.Width / _columns)) * Scale; } }
@@ -143,12 +147,15 @@ namespace JdGameBase.Graphics {
             _spriteSheet.Draw(spriteBatch);
 
             // TODO: When in a SpriteSheet, Update() is called regardless of whether this sprite is being drawn, causing its AnimationCompleted event to fire when not needed.
-            if (_shouldInvokeEvent && OnAnimationCompleted != null) OnAnimationCompleted.Invoke(this, EventArgs.Empty);
+            if (_shouldInvokeEvent && OnAnimationCompleted != null) OnAnimationCompleted.Invoke(this, new GameEventArgs(_delta));
         }
+
+        private float _delta; // temp variable for now
 
         public override void Update(float delta) {
             if (!Active) return;
             _timeSinceLastFrame += delta;
+            _delta = delta;
 
             if (!(_timeSinceLastFrame > _frameRate)) return;
 

@@ -17,25 +17,31 @@ using Microsoft.Xna.Framework.Graphics;
 namespace JdGameBase.Graphics {
     public class SpriteSheet : IEnumerable<ISprite>, IUpdatableEntity {
         private readonly Texture2D _baseTexture;
-        private readonly Dictionary<string, ISprite> _textures;
+
+        [ContentSerializer] private readonly Dictionary<string, ISprite> _textures;
         public string Name;
 
-        public SpriteSheet(ContentManager content, string textureName) {
-            _baseTexture = content.Load<Texture2D>(textureName);
+        public SpriteSheet(Texture2D baseTexture, string name) {
+            _baseTexture = baseTexture;
             _textures = new Dictionary<string, ISprite>();
-            Name = textureName;
+            Name = name;
         }
+
+        public SpriteSheet(ContentManager content, string textureName)
+            : this(content.Load<Texture2D>(textureName), textureName) { }
 
         public int SpriteCount { get { return _textures.Count; } }
 
         public ISprite this[string name] { get { return _textures[name]; } set { _textures[name] = value; } }
 
-        public dynamic this[string name, Type type]{get {
-            return (from sprite in _textures
-                    where sprite.Value.IsType(type) &&
-                          sprite.Key == name
-                    select sprite.Value).Single();
-        }}
+        public dynamic this[string name, Type type] {
+            get {
+                return (from sprite in _textures
+                        where sprite.Value.IsType(type) &&
+                              sprite.Key == name
+                        select sprite.Value).Single();
+            }
+        }
 
         public IEnumerator<ISprite> GetEnumerator() {
             return _textures.Values.ToList().GetEnumerator();
