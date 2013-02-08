@@ -9,10 +9,10 @@ using System.Collections.Generic;
 using JdGameBase.Core;
 using JdGameBase.Extensions;
 
-using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace JdGameBase.Particles {
+    //TODO: Add support for SpriteSheets and AnimatedSprites
     public class Emitter : Entity {
         public readonly List<Particle> AllParticles;
         public readonly List<Texture2D> ParticleTextures;
@@ -32,12 +32,12 @@ namespace JdGameBase.Particles {
         }
 
         public Emitter(Texture2D particleTexture)
-            : this(16f, particleTexture) {
+            : this(0.0167f, particleTexture) {
             ParticleTextures = new List<Texture2D> { particleTexture };
         }
 
         public Emitter(params Texture2D[] textures)
-            : this(16f, textures) { }
+            : this(0.0167f, textures) { }
 
         public Emitter(float spawnRate, Texture2D particleTexture)
             : this(spawnRate) {
@@ -54,6 +54,7 @@ namespace JdGameBase.Particles {
         #endregion
 
         public override void Draw(SpriteBatch spriteBatch) {
+            if (AllParticles.Count == 0) return;
             AllParticles.ForEach(x => x.Draw(spriteBatch));
         }
 
@@ -72,7 +73,7 @@ namespace JdGameBase.Particles {
         public void CreateParticle(float delta, ParticleConfig config) {
             if (!Enabled) return;
             _lastSpawn += delta;
-            if (_lastSpawn <= SpawnRate) return;
+            if (_lastSpawn <= SpawnRate * delta) return;
             if (_singleTexture) AllParticles.Add(new Particle(ParticleTextures[0], config));
             else AllParticles.Add(new Particle(ParticleTextures.GetRandom(), config));
             _lastSpawn = 0;

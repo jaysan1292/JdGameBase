@@ -53,7 +53,7 @@ namespace JdGameBase.Particles.Entities {
                         Color = cfg.DebrisColor,
                         Scale = cfg.DebrisTextureScale,
                         TimeToLive = cfg.DebrisLifetime,
-                        FadeOverTime = true
+                        ColorInterpolate = true
                     });
                 }
                 _needsDebris = false;

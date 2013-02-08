@@ -102,7 +102,7 @@ namespace JdGameBase.Particles.Entities {
                 TimeToLive = 750f,
                 Behavior = ParticleBehavior.Directional,
                 Direction = Direction,
-                ScaleOverTime = true
+                ScaleInterpolate = true
             };
 
             const float voffset = 2.25f;
@@ -126,8 +126,8 @@ namespace JdGameBase.Particles.Entities {
             fireballConfig.Scale = 1.4f * sizeOffset * Config.Scale * Config.SmokeSize;
             fireballConfig.Velocity = (smokeVelocity / 5f) * Config.SmokeSpeed;
             fireballConfig.TimeToLive = Config.SmokeLifetime;
-            fireballConfig.ScaleOverTime = false;
-            fireballConfig.FadeOverTime = true;
+            fireballConfig.ScaleInterpolate = false;
+            fireballConfig.ColorInterpolate = true;
             fireballConfig.FadeStartTime = 750f;
             _smokeOne.CreateParticle(delta, fireballConfig);
 
