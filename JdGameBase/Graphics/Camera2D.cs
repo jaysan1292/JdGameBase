@@ -45,7 +45,6 @@ namespace JdGameBase.Graphics {
             }
             set {
                 _limits = value;
-                //                return;
                 if (value != null) {
                     _limits = new Rectangle {
                         X = value.Value.X,
@@ -83,7 +82,7 @@ namespace JdGameBase.Graphics {
         public float Zoom {
             get { return _zoom; }
             set {
-                _zoom = value;
+                _zoom = MathHelper.Clamp(value, 0.1f, float.MaxValue);
                 if (!Limits.HasValue) return;
                 var minZoomX = _viewport.Width / Limits.Value.Width;
                 var minZoomY = _viewport.Height / Limits.Value.Height;
