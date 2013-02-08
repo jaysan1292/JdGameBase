@@ -108,6 +108,11 @@ namespace JdGameBase.Extensions {
         }
 
         [DebuggerHidden]
+        public static bool Contains(this Rectangle rect, Vector2 point) {
+            return rect.Contains(point.X.ToNearestInt(), point.Y.ToNearestInt());
+        }
+
+        [DebuggerHidden]
         public static Rectangle Shrink(this Rectangle rect, int amount) {
             return Shrink(rect, amount, amount);
         }
@@ -139,10 +144,8 @@ namespace JdGameBase.Extensions {
 
         [DebuggerHidden]
         public static Vector2 ConstrainWithin(this Vector2 position, Rectangle rect) {
-            if (position.X < rect.X) position.X = rect.X;
-            if (position.Y < rect.Y) position.Y = rect.Y;
-            if (position.X > rect.X + rect.Width) position.X = rect.X + rect.Width;
-            if (position.Y > rect.Y + rect.Height) position.Y = rect.Y + rect.Height;
+            position.X = MathHelper.Clamp(position.X, rect.X, rect.X + rect.Width);
+            position.Y = MathHelper.Clamp(position.Y, rect.Y, rect.Y + rect.Height);
             return position;
         }
 
@@ -155,26 +158,31 @@ namespace JdGameBase.Extensions {
                 Height = rect.Height
             };
         }
+
         [DebuggerHidden]
         public static bool IntersectsTop(this Rectangle rect, Rectangle test) {
             var line = new Line(rect.CenterVector(), test.CenterVector());
             return line.Intersects(test.TopLine());
         }
+
         [DebuggerHidden]
         public static bool IntersectsBottom(this Rectangle rect, Rectangle test) {
             var line = new Line(rect.CenterVector(), test.CenterVector());
             return line.Intersects(test.BottomLine());
         }
+
         [DebuggerHidden]
         public static bool IntersectsLeft(this Rectangle rect, Rectangle test) {
             var line = new Line(rect.CenterVector(), test.CenterVector());
             return line.Intersects(test.LeftLine());
         }
+
         [DebuggerHidden]
         public static bool IntersectsRight(this Rectangle rect, Rectangle test) {
             var line = new Line(rect.CenterVector(), test.CenterVector());
             return line.Intersects(test.RightLine());
         }
+
         [DebuggerHidden]
         public static Rectangle ToRectangle(this Vector2 vector, int width, int height) {
             return new Rectangle((int) vector.X, (int) vector.Y, width, height);
@@ -218,6 +226,46 @@ namespace JdGameBase.Extensions {
         [DebuggerHidden]
         public static Vector2 BottomRight(this Rectangle rect) {
             return new Vector2(rect.Right, rect.Bottom);
+        }
+
+        #endregion
+
+        #region Vector2
+
+        [DebuggerHidden]
+        public static float ToAngle(this Vector2 v) {
+            return (float) Math.Atan2(v.Y, v.X);
+        }
+
+        /// <summary>
+        /// Converts an angle (in radians) into a Vector2 with the given length.
+        /// </summary>
+        /// <param name="angle"></param>
+        /// <param name="length"></param>
+        /// <returns></returns>
+        [DebuggerHidden]
+        public static Vector2 ToVector2(this float angle, float length = 1f) {
+            return new Vector2((float) Math.Cos(angle), (float) Math.Sin(angle)) * length;
+        }
+
+        [DebuggerHidden]
+        public static Vector2 RotateVector(this Vector2 vector, float angle) {
+            return Vector2.Transform(vector, Matrix.CreateRotationZ(MathHelper.ToRadians(angle)));
+        }
+
+        [DebuggerHidden]
+        public static Vector2 Offset(this Vector2 vector, Vector2 offset) {
+            return Vector2.Add(vector, offset);
+        }
+
+        [DebuggerHidden]
+        public static Vector2 Offset(this Vector2 vector, float offsetX, float offsetY) {
+            return Offset(vector, new Vector2(offsetX, offsetY));
+        }
+
+        [DebuggerHidden]
+        public static Vector2 Offset(this Vector2 vector, float offset) {
+            return Offset(vector, new Vector2(offset));
         }
 
         #endregion

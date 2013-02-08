@@ -21,9 +21,19 @@ namespace JdGameBase.Core {
         }
 
         [DebuggerHidden]
+        public static Vector2 RandomVector(float xMin, float xMax, float yMin, float yMax) {
+            return new Vector2(RandomWithinRange(xMin, xMax), RandomWithinRange(yMin, yMax));
+        }
+
+        [DebuggerHidden]
         public static Vector2 RandomWithinRectangle(Rectangle rect) {
             return new Vector2(Random.Next(rect.X, rect.X + rect.Width),
                                Random.Next(rect.Y, rect.Y + rect.Height));
+        }
+
+        [DebuggerHidden]
+        public static Vector2 RandomVelocity(float maxSpeed) {
+            return RandomVelocity(Random, maxSpeed);
         }
 
         [DebuggerHidden]
@@ -44,33 +54,6 @@ namespace JdGameBase.Core {
         public static bool Chance(float percentage) {
             var chance = Random.NextDouble();
             return percentage >= chance;
-        }
-
-        #endregion
-
-        #region Vectors
-
-        [DebuggerHidden]
-        public static void ConstrainPositionWithinScreen(ref Vector2 position, Rectangle screenSize) {
-            if (position.X < 0) position.X = 0;
-            if (position.X > screenSize.Width) position.X = screenSize.Width;
-            if (position.Y < 0) position.Y = 0;
-            if (position.Y > screenSize.Height) position.Y = screenSize.Height;
-        }
-
-        [DebuggerHidden]
-        public static Vector2 AngleToVector2(float angle, float length = 1f) {
-            return new Vector2((float) Math.Cos(angle), (float) Math.Sin(angle)) * length;
-        }
-
-        [DebuggerHidden]
-        public static float Vector2ToAngle(Vector2 vector) {
-            return (float) Math.Atan2(vector.Y, vector.X);
-        }
-
-        [DebuggerHidden]
-        public static Vector2 RotateVector(Vector2 vector, float angle) {
-            return Vector2.Transform(vector, Matrix.CreateRotationZ(MathHelper.ToRadians(angle)));
         }
 
         #endregion

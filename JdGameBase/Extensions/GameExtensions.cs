@@ -45,6 +45,41 @@ namespace JdGameBase.Extensions {
 
         #region Drawing
 
+        #region Colors
+
+        //TODO: Color.Darken() + Color.Lighten()
+
+        public static Color Opacity(this Color c, float opacity) {
+            return Color.FromNonPremultiplied(c.R, c.G, c.B, (int) (opacity * byte.MaxValue));
+        }
+
+        public static float Opacity(this Color c) {
+            return (float) c.A / byte.MaxValue;
+        }
+
+        public static Color Add(this Color color, Color add) {
+            var c = color.ToVector4();
+            var a = add.ToVector4();
+            return new Color((c + a) / 2);
+        }
+
+        public static Texture2D Add(this Texture2D tex, Texture2D add) {
+            if (tex.Width != add.Width || tex.Height != add.Height) throw new ArgumentException();
+            var dim = tex.Width * tex.Height;
+            var data = new Color[dim];
+            var td = new Color[dim];
+            var ad = new Color[dim];
+            tex.GetData(td);
+            add.GetData(ad);
+            for (var i = 0; i < data.Length; i++) data[i] = td[i].Add(ad[i]);
+            tex.GraphicsDevice.Textures[0] = null;
+            tex.SetData(data);
+
+            return tex;
+        }
+
+        #endregion
+
         public static void DrawLine(this SpriteBatch spriteBatch, Texture2D texture, Color color, Vector2 start, Vector2 end) {
             spriteBatch.Draw(texture, start, null, color,
                              (float) Math.Atan2(end.Y - start.Y, end.X - start.X),

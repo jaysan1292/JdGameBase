@@ -18,6 +18,11 @@ namespace JdGameBase.Extensions {
         private static readonly Random Random = new Random();
 
         [DebuggerHidden]
+        public static float NextFloat(this Random random) {
+            return (float) random.NextDouble();
+        }
+
+        [DebuggerHidden]
         [StringFormatMethod("str")]
         public static string Fmt(this string str, params object[] args) {
             return String.Format(str, args);
