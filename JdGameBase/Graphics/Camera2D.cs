@@ -200,14 +200,15 @@ namespace JdGameBase.Graphics {
 
         #region Camera Shake
 
+        public bool Shaking;
         private float _currentShakeTime;
         private FloatInterpolator _magnitudeInterpolator;
-        private FloatInterpolator _postShakeRotationInterpolator;
         private float _maxShakeTime;
+        private FloatInterpolator _postShakeRotationInterpolator;
         private float _shakeMagnitude;
         private float _shakeRotation;
         private float _shakeSavedRotation;
-        public bool Shaking;
+        private Matrix _transform;
         public event EventHandler OnFinishedShaking;
 
         public void Shake(float duration, float magnitude = 5f, float rotation = 0.005f) {
@@ -223,16 +224,13 @@ namespace JdGameBase.Graphics {
         private void DoShake(float delta) {
             if (_postShakeRotationInterpolator.IsActive) Rotation = _postShakeRotationInterpolator.Update(delta);
             if (!Shaking) return;
-            if (!_magnitudeInterpolator.IsActive) {
-                _magnitudeInterpolator.Start(_shakeMagnitude, 0, _maxShakeTime, true);
-            }
+            if (!_magnitudeInterpolator.IsActive) _magnitudeInterpolator.Start(_shakeMagnitude, 0, _maxShakeTime, true);
             _shakeMagnitude = _magnitudeInterpolator.Update(delta);
             _currentShakeTime += delta;
 
-            var chance = Utilities.Chance(0.5f);
             var off = new Vector2 {
-                X = (float) (Noise.Generate(Position.X, Position.Y) * Random.NextDouble()) * _shakeMagnitude * (chance ? 1 : -1),
-                Y = (float) (Noise.Generate(Position.X, Position.Y) * Random.NextDouble()) * _shakeMagnitude * (chance ? 1 : -1),
+                X = Noise.Generate(_currentShakeTime) * _shakeMagnitude * (Utilities.Chance(0.5f) ? 1 : -1),
+                Y = Noise.Generate(_currentShakeTime) * _shakeMagnitude * (Utilities.Chance(0.5f) ? 1 : -1),
             };
             Position += off;
 
@@ -248,10 +246,7 @@ namespace JdGameBase.Graphics {
         }
 
         private void OnCameraFinishedShaking(object sender, EventArgs e) {
-            Debug.WriteLine("Camera finished shaking");
-            if (!_postShakeRotationInterpolator.IsActive) {
-                _postShakeRotationInterpolator.Start(Rotation, _shakeSavedRotation, 0.25f);
-            }
+            if (!_postShakeRotationInterpolator.IsActive) _postShakeRotationInterpolator.Start(Rotation, _shakeSavedRotation, 0.25f);
         }
 
         #endregion
