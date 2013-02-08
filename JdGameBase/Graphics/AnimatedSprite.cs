@@ -1,4 +1,9 @@
-﻿using System;
+﻿// Project: JdGameBase
+// Filename: AnimatedSprite.cs
+// 
+// Author: Jason Recillo
+
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 

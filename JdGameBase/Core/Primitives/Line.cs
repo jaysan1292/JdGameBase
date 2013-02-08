@@ -1,4 +1,9 @@
-﻿using System;
+﻿// Project: JdGameBase
+// Filename: Line.cs
+// 
+// Author: Jason Recillo
+
+using System;
 using System.Diagnostics;
 
 using JdGameBase.Extensions;

@@ -5,8 +5,6 @@
 
 using System;
 
-using Microsoft.Xna.Framework;
-
 namespace JdGameBase.Interpolators {
     // slightly modified from: http://www.xnawiki.com/index.php/Interpolators
     /// <summary>

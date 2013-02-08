@@ -1,3 +1,8 @@
+// Project: JdGameBase
+// Filename: Layer.cs
+// 
+// Author: Jason Recillo
+
 using System;
 
 using JdGameBase.Graphics;

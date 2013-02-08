@@ -8,8 +8,6 @@ using System.Diagnostics;
 
 using JdGameBase.Extensions;
 
-using Microsoft.Xna.Framework;
-
 namespace JdGameBase.Utils {
     /// <summary>
     /// A collection that maintains a set of class instances to allow for recycling 

@@ -1,4 +1,9 @@
-﻿using System;
+﻿// Project: JdGameBase
+// Filename: SpriteSheet.cs
+// 
+// Author: Jason Recillo
+
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;

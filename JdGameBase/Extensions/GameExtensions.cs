@@ -1,3 +1,8 @@
+// Project: JdGameBase
+// Filename: GameExtensions.cs
+// 
+// Author: Jason Recillo
+
 using System;
 using System.Collections.Generic;
 using System.Linq;

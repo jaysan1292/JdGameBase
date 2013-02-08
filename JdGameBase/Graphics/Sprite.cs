@@ -1,4 +1,9 @@
-﻿using System;
+﻿// Project: JdGameBase
+// Filename: Sprite.cs
+// 
+// Author: Jason Recillo
+
+using System;
 
 using JdGameBase.Core.Interfaces;
 
@@ -6,7 +11,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace JdGameBase.Graphics {
-    public class Sprite :ISprite{
+    public class Sprite : ISprite {
         #region ISprite Implementation
 
         private Color _color = Color.White;

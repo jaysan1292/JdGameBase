@@ -7,8 +7,6 @@ using System;
 
 using JdGameBase.Particles;
 
-using Microsoft.Xna.Framework;
-
 namespace JdGameBase.Core.Services {
     public class ParticleCounter {
         public int ParticleCount;

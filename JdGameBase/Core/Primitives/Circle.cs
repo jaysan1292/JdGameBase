@@ -1,4 +1,9 @@
-﻿using System;
+﻿// Project: JdGameBase
+// Filename: Circle.cs
+// 
+// Author: Jason Recillo
+
+using System;
 using System.Diagnostics;
 
 using Microsoft.Xna.Framework;
@@ -86,7 +91,7 @@ namespace JdGameBase.Core.Primitives {
         }
 
         /// <summary>
-        /// Determines if a circle intersect another circle.
+        /// Determines if a circle intersects another circle.
         /// If the circles touch on a single point, they are
         /// considered intersecting.
         /// </summary>

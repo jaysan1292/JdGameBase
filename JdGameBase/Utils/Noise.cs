@@ -1,4 +1,9 @@
-﻿using System;
+﻿// Project: JdGameBase
+// Filename: Noise.cs
+// 
+// Author: Jason Recillo
+
+using System;
 
 // http://code.google.com/p/simplexnoise/source/browse/trunk/SimplexNoise/Noise.cs
 

@@ -5,11 +5,10 @@
 
 using System;
 
-using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace JdGameBase.Core.Interfaces {
-    public interface IDrawableEntity :IEntity{
+    public interface IDrawableEntity : IEntity {
         void Draw(SpriteBatch spriteBatch);
     }
 }

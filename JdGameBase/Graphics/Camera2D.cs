@@ -1,5 +1,9 @@
-﻿using System;
-using System.Diagnostics;
+﻿// Project: JdGameBase
+// Filename: Camera2D.cs
+// 
+// Author: Jason Recillo
+
+using System;
 
 using JdGameBase.Core;
 using JdGameBase.Core.GameComponents;

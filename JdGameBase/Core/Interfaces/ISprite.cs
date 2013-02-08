@@ -1,10 +1,16 @@
-﻿using System;
+﻿// Project: JdGameBase
+// Filename: ISprite.cs
+// 
+// Author: Jason Recillo
+
+using System;
 
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace JdGameBase.Core.Interfaces {
-    public interface ISprite: IDrawableEntity {
+    public interface ISprite : IDrawableEntity {
         Color Color { get; set; }
         SpriteEffects Effects { get; set; }
         float LayerDepth { get; set; }
@@ -13,6 +19,8 @@ namespace JdGameBase.Core.Interfaces {
         float Rotation { get; set; }
         float Scale { get; set; }
         Rectangle? SourceRect { get; set; }
+
+        [ContentSerializerIgnore]
         Texture2D Texture { get; set; }
 
         float Width { get; }

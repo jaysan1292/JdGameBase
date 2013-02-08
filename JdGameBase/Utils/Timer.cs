@@ -1,4 +1,9 @@
-﻿using System;
+﻿// Project: JdGameBase
+// Filename: Timer.cs
+// 
+// Author: Jason Recillo
+
+using System;
 
 using JdGameBase.Core.Interfaces;
 

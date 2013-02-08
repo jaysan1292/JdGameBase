@@ -1,4 +1,9 @@
-﻿using System;
+﻿// Project: JdGameBase
+// Filename: MathExtensions.cs
+// 
+// Author: Jason Recillo
+
+using System;
 using System.Diagnostics;
 
 using JdGameBase.Core.Primitives;

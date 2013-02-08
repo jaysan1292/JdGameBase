@@ -1,4 +1,9 @@
-﻿using System;
+﻿// Project: JdGameBase
+// Filename: Focusable.cs
+// 
+// Author: Jason Recillo
+
+using System;
 
 using JdGameBase.Core;
 using JdGameBase.Core.Interfaces;
