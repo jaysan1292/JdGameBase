@@ -22,7 +22,9 @@ namespace JdGameBase.Graphics {
         private readonly Game _game;
         private IFocusable _focus;
         private Rectangle? _limits;
+        private Vector2 _oldPosition;
         private Vector2 _position;
+        private bool _transformDirty;
         private Viewport _viewport;
         private float _zoom;
 
@@ -92,7 +94,13 @@ namespace JdGameBase.Graphics {
 
         public Vector2 ScreenCenter { get; protected set; }
 
-        public Matrix Transform { get; private set; }
+        public Matrix Transform {
+            get {
+                // Only recalculate the transform matrix if it needs to be changed
+                if (_transformDirty) _transform = CalculateTransform();
+                return _transform;
+            }
+        }
 
         public IFocusable Focus {
             get { return _focus; }
@@ -103,6 +111,15 @@ namespace JdGameBase.Graphics {
         }
 
         public float MoveSpeed { get; set; }
+
+        private Matrix CalculateTransform() {
+            _transformDirty = false;
+            return Matrix.Identity *
+                   Matrix.CreateTranslation(-Position.X, -Position.Y, 0) *
+                   Matrix.CreateRotationZ(Rotation) *
+                   Matrix.CreateTranslation(Origin.X, Origin.Y, 0) *
+                   Matrix.CreateScale(Zoom);
+        }
 
         #endregion
 
@@ -122,7 +139,7 @@ namespace JdGameBase.Graphics {
             base.Initialize();
         }
 
-        public override void Update(float delta) {
+        public override void Update(float delta, GameTime gameTime) {
             //TODO: Dynamically zoom to keep all entities on screen
             var focus = Focus as FocusPoint;
             if (focus != null) focus.Update(delta);
@@ -131,20 +148,16 @@ namespace JdGameBase.Graphics {
 
             Origin = ScreenCenter / Zoom;
 
-            // Create the Transform used by any
-            // SpriteBatch process
-            Transform = Matrix.Identity *
-                        Matrix.CreateTranslation(-Position.X, -Position.Y, 0) *
-                        Matrix.CreateRotationZ(Rotation) *
-                        Matrix.CreateTranslation(Origin.X, Origin.Y, 0) *
-                        Matrix.CreateScale(Zoom);
-
             // Move the camera to the position that it needs to go
             // use the property setter, to limit the camera if needed
             Position = new Vector2(_position.X + (Focus.FocusPosition.X - Position.X) * MoveSpeed * delta,
                                    _position.Y + (Focus.FocusPosition.Y - Position.Y) * MoveSpeed * delta);
 
-            base.Update(delta);
+            if (Position != _oldPosition) _transformDirty = true;
+
+            _oldPosition = Position;
+
+            base.Update(delta, gameTime);
         }
 
         public Matrix GetViewMatrix(Vector2 parallax) {
