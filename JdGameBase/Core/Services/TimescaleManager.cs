@@ -13,14 +13,16 @@ namespace JdGameBase.Core.Services {
         public float MaxTimeScale;
         public float MinTimeScale;
         public bool Paused;
-        public float TimeScale;
         private float _previousTimeScale;
+        private float _timeScale;
 
         public TimeScaleManager() {
-            TimeScale = 1f;
+            _timeScale = 1f;
             MinTimeScale = 0f;
             MaxTimeScale = 2.5f;
         }
+
+        public float TimeScale { get { return _timeScale; } set { _timeScale = MathHelper.Clamp(value, MinTimeScale, MaxTimeScale); } }
 
         public void IncreaseTimeScale(float delta) {
             if (TimeScale == 0f) TimeScale = Buffer * 2;
@@ -44,12 +46,12 @@ namespace JdGameBase.Core.Services {
 
         public void PauseTime() {
             if (Math.Abs(TimeScale - 0f) > 0.0000001f) _previousTimeScale = TimeScale;
-            TimeScale = 0f;
+            _timeScale = 0f;
             Paused = true;
         }
 
         public void ResumeTime() {
-            TimeScale = _previousTimeScale;
+            _timeScale = _previousTimeScale;
             _previousTimeScale = 0f;
             Paused = false;
         }

@@ -23,8 +23,11 @@ namespace JdGameBase.Core.Services {
             FrameCounter = 0;
         }
 
+        /// <summary>
+        /// Updates the frame count. Must be called in your Draw() method.
+        /// </summary>
         public void UpdateFrameCount() {
-            // Will not actually draw anything, but will increment the frame counter
+            // Increment the frame counter
             FrameCounter++;
         }
     }

@@ -18,6 +18,11 @@ namespace JdGameBase.Extensions {
         private static readonly Random Random = new Random();
 
         [DebuggerHidden]
+        public static bool Empty<T>(this IEnumerable<T> e) {
+            return e.Count() != 0;
+        }
+
+        [DebuggerHidden]
         public static float NextFloat(this Random random) {
             return (float) random.NextDouble();
         }
@@ -59,11 +64,6 @@ namespace JdGameBase.Extensions {
         public static bool IsDerivedFrom<TBaseType>(this Type type) {
             if (type.BaseType == null) return false;
             return type == typeof(TBaseType) || IsDerivedFrom<TBaseType>(type.BaseType);
-        }
-
-        [DebuggerHidden]
-        public static Vector2 GetPosition(this MouseState mouse) {
-            return new Vector2(mouse.X, mouse.Y);
         }
 
         [DebuggerHidden]

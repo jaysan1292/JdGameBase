@@ -26,12 +26,15 @@ namespace JdGameBase.Core.Services {
         private readonly List<IUpdatableEntity> _updatables;
         public bool DrawBoundingBoxes;
 
+        public Color DebugColor { get; set; }
+
         public EntityManager(Game game) {
             _entities = new List<Entity>();
             _drawables = new List<IDrawableEntity>();
             _updatables = new List<IUpdatableEntity>();
             _debugTexture = ColorTexture.Create(game.GraphicsDevice, Color.White);
             _game = game;
+            DebugColor = Color.Lime;
 
             _camera = game.GetComponent<Camera2D>();
             _containsCamera = _camera != null;
@@ -51,7 +54,7 @@ namespace JdGameBase.Core.Services {
             Action<Entity> draw = x => {
                 x.Draw(spriteBatch);
                 if (!DrawBoundingBoxes) return;
-                spriteBatch.DrawRectangle(_debugTexture, Color.Lime, x.BoundingBox);
+                spriteBatch.DrawRectangle(_debugTexture, DebugColor, x.BoundingBox);
             };
 
             _drawables.ForEach(x => x.Draw(spriteBatch));
@@ -145,7 +148,7 @@ namespace JdGameBase.Core.Services {
             _entities.RemoveAll(ents.Contains);
         }
 
-        public void UnregisterEntityType<T>() where T : Entity {
+        public void UnregisterEntitiesOfType<T>() where T : Entity {
             _entities.RemoveAll(x => x.GetType().IsDerivedFrom<T>());
         }
 

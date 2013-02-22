@@ -102,12 +102,36 @@ namespace JdGameBase.Core.Primitives {
             var dY = circle.Center.Y - Center.Y;
             var d = Math.Sqrt(dX * dX + dY * dY);
 
-            // Circles do not interset if they are too far apart
+            // Circles do not intersect if they are too far apart
             return !(d > (Radius + circle.Radius));
+        }
+
+        public bool Intersects(Line line) {
+            var c = Center;
+            var r = Radius;
+            var p1 = line.Start;
+            var p2 = line.End;
+
+            var dir = p2 - p1;
+            var diff = c - p1;
+            var t = Vector2.Dot(diff, dir) / Vector2.Dot(dir, dir);
+            if (t < 0f) t = 0f;
+            if (t > 1f) t = 1f;
+            var closest = p1 + t * dir;
+            var d = c - closest;
+            var distsqr = Vector2.Dot(d, d);
+            return distsqr <= r * r;
         }
 
         public bool Contains(Vector2 p) {
             return Vector2.Distance(Center, p) < Radius;
+        }
+
+        public Vector2 CollisionPoint(Circle circle) {
+            return new Vector2 {
+                X = ((Center.X * circle.Radius) + (circle.Center.X * Radius)) / (Radius + circle.Radius),
+                Y = ((Center.Y * circle.Radius) + (circle.Center.Y * Radius)) / (Radius + circle.Radius),
+            };
         }
     }
 }

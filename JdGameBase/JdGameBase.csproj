@@ -97,7 +97,11 @@
   <ItemGroup>
     <Compile Include="Core\Interfaces\ICollisionEntity.cs" />
     <Compile Include="Core\Interfaces\IEntity.cs" />
+    <Compile Include="Core\Interfaces\IQuadObject.cs" />
     <Compile Include="Core\Primitives\Ellipse.cs" />
+    <Compile Include="Core\Services\CommandManager.cs" />
+    <Compile Include="Core\Interfaces\ICommand.cs" />
+    <Compile Include="Utils\Quadtree.cs" />
     <Compile Include="Extensions\GameExtensions.cs" />
     <Compile Include="Extensions\GeneralExtensions.cs" />
     <Compile Include="Extensions\MathExtensions.cs" />
@@ -110,10 +114,10 @@
     <Compile Include="Core\Primitives\Line.cs" />
     <Compile Include="Core\Primitives\Polygon.cs" />
     <Compile Include="Graphics\AnimatedSprite.cs" />
-    <Compile Include="Graphics\Camera2D.cs" />
+    <Compile Include="Camera\Camera2D.cs" />
     <Compile Include="Graphics\ColorTexture.cs" />
-    <Compile Include="Graphics\Focusable.cs" />
-    <Compile Include="Graphics\FocusPoint.cs" />
+    <Compile Include="Camera\Focusable.cs" />
+    <Compile Include="Camera\FocusPoint.cs" />
     <Compile Include="Core\Interfaces\ISprite.cs" />
     <Compile Include="Graphics\Sprite.cs" />
     <Compile Include="Core\Interfaces\ICamera2D.cs" />
@@ -151,6 +155,7 @@
     <Compile Include="Core\Services\ParticleCounter.cs" />
     <Compile Include="Core\Services\TimescaleManager.cs" />
     <Compile Include="Core\Utilities.cs" />
+    <Compile Include="Utils\MathUtils.cs" />
     <Compile Include="Utils\Noise.cs" />
     <Compile Include="Utils\Pool.cs" />
     <Compile Include="Utils\Timer.cs" />

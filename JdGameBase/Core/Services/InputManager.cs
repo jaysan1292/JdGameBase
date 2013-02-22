@@ -10,10 +10,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace JdGameBase.Core.Services {
     public class InputManager {
-        private GamePadState _oldGamePadState1;
-        private GamePadState _oldGamePadState2;
-        private GamePadState _oldGamePadState3;
-        private GamePadState _oldGamePadState4;
+        private readonly GamePadState[] _oldGamePadStates = new GamePadState[4];
         private KeyboardState _oldKeyboardState;
         private MouseState _oldMouseState;
 
@@ -34,16 +31,16 @@ namespace JdGameBase.Core.Services {
             if (!gps.IsConnected) return;
             switch (idx) {
                 case PlayerIndex.One:
-                    HandleGamePadInput(delta, idx, action, gps, ref _oldGamePadState1);
+                    HandleGamePadInput(delta, idx, action, gps, ref _oldGamePadStates[0]);
                     break;
                 case PlayerIndex.Two:
-                    HandleGamePadInput(delta, idx, action, gps, ref _oldGamePadState2);
+                    HandleGamePadInput(delta, idx, action, gps, ref _oldGamePadStates[1]);
                     break;
                 case PlayerIndex.Three:
-                    HandleGamePadInput(delta, idx, action, gps, ref _oldGamePadState3);
+                    HandleGamePadInput(delta, idx, action, gps, ref _oldGamePadStates[2]);
                     break;
                 case PlayerIndex.Four:
-                    HandleGamePadInput(delta, idx, action, gps, ref _oldGamePadState4);
+                    HandleGamePadInput(delta, idx, action, gps, ref _oldGamePadStates[3]);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException("idx");

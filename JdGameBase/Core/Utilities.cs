@@ -7,6 +7,8 @@ using System;
 using System.Diagnostics;
 using System.Linq;
 
+using JdGameBase.Extensions;
+
 using Microsoft.Xna.Framework;
 
 namespace JdGameBase.Core {
@@ -59,6 +61,22 @@ namespace JdGameBase.Core {
         #endregion
 
         #region Colors
+
+        [DebuggerHidden]
+        public static Color RandomColor(int brightnessThreshold, float opacity=1f) {
+            while (true) {
+                var c = new Vector4(Random.NextFloat(),
+                                    Random.NextFloat(),
+                                    Random.NextFloat(),
+                                    opacity);
+                var color = new Color(c);
+
+                if (color.R < brightnessThreshold ||
+                    color.G < brightnessThreshold ||
+                    color.B < brightnessThreshold)
+                    return color;
+            }
+        }
 
         // http://www.cs.rit.edu/~ncs/color/t_convert.html
 

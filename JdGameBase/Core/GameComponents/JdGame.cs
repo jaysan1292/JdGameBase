@@ -30,6 +30,7 @@ namespace JdGameBase.Core.GameComponents {
             InputManager = new InputManager();
             TimeScaleManager = new TimeScaleManager();
             _frameRateCounter = new FrameRateCounter();
+            Content.RootDirectory = "Content";
         }
 
         protected int FramesPerSecond { get { return _frameRateCounter.FramesPerSecond; } }

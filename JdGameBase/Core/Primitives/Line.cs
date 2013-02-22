@@ -32,6 +32,8 @@ namespace JdGameBase.Core.Primitives {
             }
         }
 
+        public float Angle { get { return (float) Math.Atan2(End.Y - Start.Y, End.X - Start.X); } }
+
         public bool Intersects(Line line) {
             var ab = this;
             var cd = line;

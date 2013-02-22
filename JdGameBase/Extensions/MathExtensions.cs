@@ -14,24 +14,42 @@ namespace JdGameBase.Extensions {
     public static class MathExtensions {
         private static readonly Random Random = new Random();
 
+        #region General
+
+        [DebuggerHidden]
+        public static float ToDegrees(this float f) {
+            return MathHelper.ToDegrees(f);
+        }
+
+        [DebuggerHidden]
+        public static float ToRadians(this float f) {
+            return MathHelper.ToRadians(f);
+        }
+
+        #endregion
+
         #region Quaternion
 
         #region Yaw
 
+        [DebuggerHidden]
         public static Quaternion Yaw(this Quaternion q, float value) {
             return q * Quaternion.CreateFromYawPitchRoll(value, 0, 0);
         }
 
+        [DebuggerHidden]
         public static void Yaw(this Quaternion q, float value, out Quaternion result) {
             result = Yaw(q, value);
         }
 
+        [DebuggerHidden]
         public static Quaternion Yaw(this Quaternion q, float value, bool normalize) {
             var ret = Yaw(q, value);
             if (normalize) ret.Normalize();
             return ret;
         }
 
+        [DebuggerHidden]
         public static void Yaw(this Quaternion q, float value, bool normalize, out Quaternion result) {
             result = Yaw(q, value, normalize);
         }
@@ -40,20 +58,24 @@ namespace JdGameBase.Extensions {
 
         #region Pitch
 
+        [DebuggerHidden]
         public static Quaternion Pitch(this Quaternion q, float value) {
             return q * Quaternion.CreateFromYawPitchRoll(0, value, 0);
         }
 
+        [DebuggerHidden]
         public static void Pitch(this Quaternion q, float value, out Quaternion result) {
             result = Pitch(q, value);
         }
 
+        [DebuggerHidden]
         public static Quaternion Pitch(this Quaternion q, float value, bool normalize) {
             var ret = Pitch(q, value);
             if (normalize) ret.Normalize();
             return ret;
         }
 
+        [DebuggerHidden]
         public static void Pitch(this Quaternion q, float value, bool normalize, out Quaternion result) {
             result = Pitch(q, value, normalize);
         }
@@ -62,26 +84,31 @@ namespace JdGameBase.Extensions {
 
         #region Roll
 
+        [DebuggerHidden]
         public static Quaternion Roll(this Quaternion q, float value) {
             return q * Quaternion.CreateFromYawPitchRoll(0, value, 0);
         }
 
+        [DebuggerHidden]
         public static void Roll(this Quaternion q, float value, out Quaternion result) {
             result = Roll(q, value);
         }
 
+        [DebuggerHidden]
         public static Quaternion Roll(this Quaternion q, float value, bool normalize) {
             var ret = Roll(q, value);
             if (normalize) ret.Normalize();
             return ret;
         }
 
+        [DebuggerHidden]
         public static void Roll(this Quaternion q, float value, bool normalize, out Quaternion result) {
             result = Roll(q, value, normalize);
         }
 
         #endregion
 
+        [DebuggerHidden]
         public static void ToYawPitchRoll(this Quaternion q, out float yaw, out float pitch, out float roll) {
             var x = q.X;
             var y = q.Y;
@@ -238,16 +265,24 @@ namespace JdGameBase.Extensions {
         }
 
         /// <summary>
-        /// Converts an angle (in radians) into a Vector2 with the given length.
+        /// Converts an angle into a Vector2 with the given length.
         /// </summary>
         /// <param name="angle"></param>
         /// <param name="length"></param>
+        /// <param name="radians">Whether the angle is in radians. Defaults to true.</param>
         /// <returns></returns>
         [DebuggerHidden]
-        public static Vector2 ToVector2(this float angle, float length = 1f) {
+        public static Vector2 ToVector2(this float angle, float length = 1f, bool radians = true) {
+            if (!radians) angle = MathHelper.ToRadians(angle);
             return new Vector2((float) Math.Cos(angle), (float) Math.Sin(angle)) * length;
         }
 
+        /// <summary>
+        /// Rotates a vector to have the specified angle.
+        /// </summary>
+        /// <param name="vector">The vector to rotate.</param>
+        /// <param name="angle">The angle, in degrees.</param>
+        /// <returns></returns>
         [DebuggerHidden]
         public static Vector2 RotateVector(this Vector2 vector, float angle) {
             return Vector2.Transform(vector, Matrix.CreateRotationZ(MathHelper.ToRadians(angle)));
