@@ -63,7 +63,7 @@ namespace JdGameBase.Core {
         #region Colors
 
         [DebuggerHidden]
-        public static Color RandomColor(int brightnessThreshold, float opacity=1f) {
+        public static Color RandomColor(int brightnessThreshold, float opacity = 1f) {
             while (true) {
                 var c = new Vector4(Random.NextFloat(),
                                     Random.NextFloat(),

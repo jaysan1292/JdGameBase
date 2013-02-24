@@ -6,7 +6,6 @@
 using System;
 using System.Collections.Generic;
 
-using JdGameBase.Core;
 using JdGameBase.Core.Interfaces;
 using JdGameBase.Extensions;
 using JdGameBase.Graphics;
@@ -157,7 +156,6 @@ namespace JdGameBase.Utils {
         /// <summary>
         /// Debug method to draw the boundaries of all of the nodes in the quadtree.
         /// </summary>
-        
         public void Draw(SpriteBatch spriteBatch) {
             Draw(spriteBatch, Color.Lime);
         }

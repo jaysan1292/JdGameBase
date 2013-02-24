@@ -7,9 +7,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
+using JdGameBase.Camera;
 using JdGameBase.Core.GameComponents;
 using JdGameBase.Extensions;
-using JdGameBase.Graphics;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;

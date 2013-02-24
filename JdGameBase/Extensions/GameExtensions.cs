@@ -17,6 +17,7 @@ using Microsoft.Xna.Framework.Input;
 namespace JdGameBase.Extensions {
     public static class GameExtensions {
         #region Components
+
         [DebuggerHidden]
         public static float AspectRatio(this GraphicsDevice device) {
             return (float) device.Viewport.Width / device.Viewport.Height;
@@ -118,7 +119,8 @@ namespace JdGameBase.Extensions {
 
         [DebuggerHidden]
         public static void DrawPolygon(this SpriteBatch spriteBatch, Texture2D texture, Color color, Polygon polygon) {
-            for (var i = 0; i < polygon.VertexCount - 1; i++) spriteBatch.DrawLine(texture, color, new Line(polygon[i], polygon[i + 1]));
+            for (var i = 0; i < polygon.VertexCount - 1; i++)
+                spriteBatch.DrawLine(texture, color, new Line(polygon[i], polygon[i + 1]));
             spriteBatch.DrawLine(texture, color, new Line(polygon[polygon.VertexCount - 1], polygon[0]));
         }
 
@@ -200,6 +202,7 @@ namespace JdGameBase.Extensions {
         public static bool IsPressed(this ButtonState button) {
             return button == ButtonState.Pressed;
         }
+
         [DebuggerHidden]
         public static bool IsReleased(this ButtonState button) {
             return button == ButtonState.Released;

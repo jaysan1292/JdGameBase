@@ -10,9 +10,6 @@ using System.Linq;
 
 using JetBrains.Annotations;
 
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
-
 namespace JdGameBase.Extensions {
     public static class GeneralExtensions {
         private static readonly Random Random = new Random();

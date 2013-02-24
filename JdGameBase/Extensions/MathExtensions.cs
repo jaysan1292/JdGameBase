@@ -260,6 +260,11 @@ namespace JdGameBase.Extensions {
         #region Vector2
 
         [DebuggerHidden]
+        public static Vector3 ToVector3(this Vector2 v, float z = 0f) {
+            return new Vector3(v, z);
+        }
+
+        [DebuggerHidden]
         public static float ToAngle(this Vector2 v) {
             return (float) Math.Atan2(v.Y, v.X);
         }
