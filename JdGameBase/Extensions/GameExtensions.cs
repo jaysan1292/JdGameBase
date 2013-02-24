@@ -123,6 +123,16 @@ namespace JdGameBase.Extensions {
         }
 
         [DebuggerHidden]
+        public static void DrawPolygon(this SpriteBatch spriteBatch, Texture2D texture, Color color, Vector2 p1, Vector2 p2, params Vector2[] points) {
+            spriteBatch.DrawPolygon(texture, color, new Polygon(p1, p2, points));
+        }
+
+        [DebuggerHidden]
+        public static void DrawCircle(this SpriteBatch spriteBatch, Texture2D texture, Color color, Vector2 center, float radius) {
+            spriteBatch.DrawCircle(texture, color, new Circle(center, radius));
+        }
+
+        [DebuggerHidden]
         public static void DrawCircle(this SpriteBatch spriteBatch, Texture2D texture, Color color, Circle circle) {
             var angleStep = 1f / circle.Radius;
 
