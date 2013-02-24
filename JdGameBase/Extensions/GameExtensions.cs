@@ -193,7 +193,16 @@ namespace JdGameBase.Extensions {
 
         [DebuggerHidden]
         public static bool WasJustPressed(this ButtonState button, ButtonState old) {
-            return button == ButtonState.Pressed && old == ButtonState.Released;
+            return button.IsPressed() && old.IsReleased();
+        }
+
+        [DebuggerHidden]
+        public static bool IsPressed(this ButtonState button) {
+            return button == ButtonState.Pressed;
+        }
+        [DebuggerHidden]
+        public static bool IsReleased(this ButtonState button) {
+            return button == ButtonState.Released;
         }
 
         #endregion
