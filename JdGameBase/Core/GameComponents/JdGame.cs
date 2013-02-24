@@ -34,6 +34,7 @@ namespace JdGameBase.Core.GameComponents {
         }
 
         protected int FramesPerSecond { get { return _frameRateCounter.FramesPerSecond; } }
+        public float AspectRatio { get; private set; }
 
         public virtual void HandleKeyboardInput(float delta, KeyboardState ks, KeyboardState old) { }
         public virtual void HandleMouseInput(float delta, MouseState mouseState, MouseState old) { }
@@ -52,6 +53,7 @@ namespace JdGameBase.Core.GameComponents {
 
         protected override void LoadContent() {
             SpriteBatch = new SpriteBatch(GraphicsDevice);
+            AspectRatio = GraphicsDevice.Viewport.AspectRatio;
             base.LoadContent();
         }
 
