@@ -98,7 +98,7 @@
     <Compile Include="Core\Interfaces\ICollisionEntity.cs" />
     <Compile Include="Core\Interfaces\IEntity.cs" />
     <Compile Include="Core\Interfaces\IQuadObject.cs" />
-    <Compile Include="Core\Primitives\Ellipse.cs" />
+    <Compile Include="Core\Geometry\Ellipse.cs" />
     <Compile Include="Core\Services\CommandManager.cs" />
     <Compile Include="Core\Interfaces\ICommand.cs" />
     <Compile Include="Utils\Quadtree.cs" />
@@ -110,9 +110,9 @@
     <Compile Include="Core\GameComponents\JdDrawableComponent.cs" />
     <Compile Include="Core\GameComponents\JdGame.cs" />
     <Compile Include="Core\GameEventArgs.cs" />
-    <Compile Include="Core\Primitives\Circle.cs" />
-    <Compile Include="Core\Primitives\Line.cs" />
-    <Compile Include="Core\Primitives\Polygon.cs" />
+    <Compile Include="Core\Geometry\Circle.cs" />
+    <Compile Include="Core\Geometry\Line.cs" />
+    <Compile Include="Core\Geometry\Polygon.cs" />
     <Compile Include="Graphics\AnimatedSprite.cs" />
     <Compile Include="Camera\Camera2D.cs" />
     <Compile Include="Graphics\ColorTexture.cs" />

@@ -11,7 +11,7 @@ using System.Linq;
 
 using Microsoft.Xna.Framework;
 
-namespace JdGameBase.Core.Primitives {
+namespace JdGameBase.Core.Geometry {
     // TODO: Polygon area
     public struct Polygon : IEnumerable<Vector2> {
         public List<Vector2> Vertices;

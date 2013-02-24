@@ -10,7 +10,7 @@ using JdGameBase.Extensions;
 
 using Microsoft.Xna.Framework;
 
-namespace JdGameBase.Core.Primitives {
+namespace JdGameBase.Core.Geometry {
     public struct Line {
         public Vector2 End;
         public Vector2 Start;

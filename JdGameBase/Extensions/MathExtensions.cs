@@ -6,7 +6,7 @@
 using System;
 using System.Diagnostics;
 
-using JdGameBase.Core.Primitives;
+using JdGameBase.Core.Geometry;
 
 using Microsoft.Xna.Framework;
 

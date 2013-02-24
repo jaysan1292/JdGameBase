@@ -8,7 +8,7 @@ using System.Diagnostics;
 
 using Microsoft.Xna.Framework;
 
-namespace JdGameBase.Core.Primitives {
+namespace JdGameBase.Core.Geometry {
     // source: http://www.xnawiki.com/index.php/Circle_Class
     /// <summary>
     /// Represents a 2D circle.

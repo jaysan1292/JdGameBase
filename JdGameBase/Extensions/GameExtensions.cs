@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 
-using JdGameBase.Core.Primitives;
+using JdGameBase.Core.Geometry;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
