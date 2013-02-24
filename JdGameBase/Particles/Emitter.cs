@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using JdGameBase.Core;
 using JdGameBase.Extensions;
 
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace JdGameBase.Particles {
@@ -58,9 +59,9 @@ namespace JdGameBase.Particles {
             AllParticles.ForEach(x => x.Draw(spriteBatch));
         }
 
-        public override void Update(float delta) {
+        public override void Update(float delta, GameTime gameTime) {
             if (AllParticles.Count == 0) return;
-            AllParticles.ForEach(x => x.Update(delta));
+            AllParticles.ForEach(x => x.Update(delta, gameTime));
             AllParticles.RemoveAll(x => !x.Alive && x.Config.TimeToLive <= 0f);
         }
 

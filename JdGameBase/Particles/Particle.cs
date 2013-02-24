@@ -49,7 +49,7 @@ namespace JdGameBase.Particles {
             spriteBatch.Draw(Texture, Config.Position, null, Config.Color, Config.Rotation, center, Config.Scale, SpriteEffects.None, 0f);
         }
 
-        public override void Update(float delta) {
+        public override void Update(float delta, GameTime gameTime) {
             Config.TimeToLive -= delta;
 
             if (Config.ColorInterpolate) Config.Color = _color.Update(delta);

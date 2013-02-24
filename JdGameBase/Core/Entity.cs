@@ -15,6 +15,6 @@ namespace JdGameBase.Core {
         public virtual bool AlwaysDraw { get { return false; } }
         public virtual Rectangle BoundingBox { get { return Rectangle.Empty; } }
         public abstract void Draw(SpriteBatch spriteBatch);
-        public abstract void Update(float delta);
+        public abstract void Update(float delta, GameTime gameTime);
     }
 }

@@ -5,8 +5,10 @@
 
 using System;
 
+using Microsoft.Xna.Framework;
+
 namespace JdGameBase.Core.Interfaces {
     public interface IUpdatableEntity : IEntity {
-        void Update(float delta);
+        void Update(float delta, GameTime gameTime);
     }
 }

@@ -42,8 +42,8 @@ namespace JdGameBase.Particles.Entities {
             return base.TotalParticleCount() + _debris.ParticleCount;
         }
 
-        public override void Update(float delta) {
-            base.Update(delta);
+        public override void Update(float delta, GameTime gameTime) {
+            base.Update(delta, gameTime);
             var cfg = ((ExplosionConfig) Config);
             if (_needsDebris) {
                 for (var i = 0; i < cfg.DebrisCount; i++) {
@@ -65,7 +65,7 @@ namespace JdGameBase.Particles.Entities {
                 _duration = 0f;
             }
 
-            _debris.Update(delta);
+            _debris.Update(delta, gameTime);
         }
 
         public override void Draw(SpriteBatch spriteBatch) {

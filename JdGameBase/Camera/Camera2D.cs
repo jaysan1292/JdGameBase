@@ -15,7 +15,7 @@ using JdGameBase.Utils;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace JdGameBase.Graphics {
+namespace JdGameBase.Camera {
     // Slightly modified from http://stackoverflow.com/questions/712296/xna-2d-camera-engine-that-follows-sprite
     public class Camera2D : JdComponent, ICamera2D {
         private static readonly Random Random = new Random();
@@ -138,7 +138,7 @@ namespace JdGameBase.Graphics {
         public override void Update(float delta, GameTime gameTime) {
             //TODO: Dynamically zoom to keep all entities on screen
             var focus = Focus as FocusPoint;
-            if (focus != null) focus.Update(delta);
+            if (focus != null) focus.Update(delta, gameTime);
 
             DoShake(delta);
 

@@ -12,7 +12,7 @@ using JdGameBase.Extensions;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace JdGameBase.Graphics {
+namespace JdGameBase.Camera {
     /// <summary>
     /// Allows the camera to focus on any arbitrary point.
     /// </summary>
@@ -25,6 +25,6 @@ namespace JdGameBase.Graphics {
         public Vector2 FocusPosition { get; private set; }
 
         public override void Draw(SpriteBatch spriteBatch) { }
-        public override void Update(float delta) { }
+        public override void Update(float delta, GameTime gameTime) { }
     }
 }

@@ -152,7 +152,7 @@ namespace JdGameBase.Graphics {
 
         private float _delta; // temp variable for now
 
-        public override void Update(float delta) {
+        public override void Update(float delta, GameTime gameTime) {
             if (!Active) return;
             _timeSinceLastFrame += delta;
             _delta = delta;

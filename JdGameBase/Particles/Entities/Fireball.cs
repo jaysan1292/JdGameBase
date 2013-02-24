@@ -89,7 +89,7 @@ namespace JdGameBase.Particles.Entities {
             _three.Draw(spriteBatch);
         }
 
-        public override void Update(float delta) {
+        public override void Update(float delta, GameTime gameTime) {
             ActiveDuration += delta;
             const float maxSpeed = 0.25f;
             var velocity1 = Utilities.RandomVelocity(Random, maxSpeed);
@@ -135,11 +135,11 @@ namespace JdGameBase.Particles.Entities {
             fireballConfig.Scale = 1.2f * sizeOffset * Config.Scale * Config.SmokeSize;
             _smokeTwo.CreateParticle(delta, fireballConfig);
 
-            _one.Update(delta);
-            _two.Update(delta);
-            _three.Update(delta);
-            _smokeOne.Update(delta);
-            _smokeTwo.Update(delta);
+            _one.Update(delta, gameTime);
+            _two.Update(delta, gameTime);
+            _three.Update(delta, gameTime);
+            _smokeOne.Update(delta, gameTime);
+            _smokeTwo.Update(delta, gameTime);
         }
     }
 }

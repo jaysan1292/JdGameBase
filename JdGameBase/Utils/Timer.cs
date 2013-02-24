@@ -7,6 +7,8 @@ using System;
 
 using JdGameBase.Core.Interfaces;
 
+using Microsoft.Xna.Framework;
+
 namespace JdGameBase.Utils {
     public class Timer : IUpdatableEntity {
         public Timer()
@@ -27,7 +29,7 @@ namespace JdGameBase.Utils {
         public Action Callback { get; set; }
         public float CurrentTime { get; private set; }
 
-        public void Update(float delta) {
+        public void Update(float delta, GameTime gameTime) {
             if (!Active) return;
 
             CurrentTime += delta;

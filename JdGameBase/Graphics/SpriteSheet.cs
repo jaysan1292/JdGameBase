@@ -11,6 +11,7 @@ using System.Linq;
 using JdGameBase.Core.Interfaces;
 using JdGameBase.Extensions;
 
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -51,12 +52,12 @@ namespace JdGameBase.Graphics {
             return GetEnumerator();
         }
 
-        public void Update(float delta) {
+        public void Update(float delta, GameTime gameTime) {
             // Update all animated sprites
             (from sprite in this
              where sprite.IsType<AnimatedSprite>()
              select (AnimatedSprite) sprite)
-                .ToList().ForEach(x => x.Update(delta));
+                .ToList().ForEach(x => x.Update(delta, gameTime));
         }
 
         public void Add(string name, ISprite sprite) {

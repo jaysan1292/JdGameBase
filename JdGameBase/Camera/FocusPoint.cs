@@ -9,13 +9,13 @@ using System.Diagnostics;
 using System.Linq;
 
 using JdGameBase.Core;
+using JdGameBase.Core.Geometry;
 using JdGameBase.Core.Interfaces;
-using JdGameBase.Core.Primitives;
 using JdGameBase.Extensions;
 
 using Microsoft.Xna.Framework;
 
-namespace JdGameBase.Graphics {
+namespace JdGameBase.Camera {
     public class FocusPoint : IFocusable, IUpdatableEntity {
         public readonly List<Entity> Points;
         private Camera2D _camera;
@@ -43,7 +43,7 @@ namespace JdGameBase.Graphics {
         [DebuggerHidden]
         public Vector2 FocusPosition { get { return Points.Count != 0 ? FocusPolygon.Center : Vector2.Zero; } }
 
-        public void Update(float delta) {
+        public void Update(float delta, GameTime gameTime) {
             // Don't update camera zoom if not set, or if there are less than two points
             if (!KeepAllEntitiesOnScreen || Points.Count < 2) return;
             return;
