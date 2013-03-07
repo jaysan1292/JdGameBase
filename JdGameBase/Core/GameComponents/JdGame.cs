@@ -4,6 +4,9 @@
 // Author: Jason Recillo
 
 using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 
 using JdGameBase.Core.Interfaces;
 using JdGameBase.Core.Services;
@@ -15,37 +18,46 @@ using Microsoft.Xna.Framework.Input;
 
 namespace JdGameBase.Core.GameComponents {
     public abstract class JdGame : Game, IInputHandler {
-        public static Rectangle ScreenSize = new Rectangle(0, 0, 800, 480);
+        protected readonly InputManager InputManager;
+        protected readonly TimeScaleManager TimeScaleManager;
         private readonly FrameRateCounter _frameRateCounter;
         private readonly GraphicsDeviceManager _graphics;
-        public EntityManager EntityManager;
-        protected InputManager InputManager;
+        protected EntityManager EntityManager;
         protected SpriteBatch SpriteBatch;
-        protected TimeScaleManager TimeScaleManager;
 
         public JdGame() {
-            _graphics = new GraphicsDeviceManager(this);
-            _graphics.SynchronizeWithVerticalRetrace = false;
+            _graphics = new GraphicsDeviceManager(this) {
+                SynchronizeWithVerticalRetrace = false
+            };
+            ScreenBounds = new Rectangle(0, 0, 800, 480);
             IsFixedTimeStep = false;
-            InputManager = new InputManager();
+
+            InputManager = new InputManager(this);
             TimeScaleManager = new TimeScaleManager();
             _frameRateCounter = new FrameRateCounter();
+
             Content.RootDirectory = "Content";
         }
 
         protected int FramesPerSecond { get { return _frameRateCounter.FramesPerSecond; } }
-        public float AspectRatio { get; private set; }
+        public float AspectRatio { get { return GraphicsDevice.Viewport.AspectRatio; } }
+
+        public Rectangle ScreenBounds {
+            get { return GraphicsDevice.Viewport.Bounds; }
+            set {
+                _graphics.PreferredBackBufferWidth = value.Width;
+                _graphics.PreferredBackBufferHeight = value.Height;
+                _graphics.ApplyChanges();
+            }
+        }
 
         public virtual void HandleKeyboardInput(float delta, KeyboardState ks, KeyboardState old) { }
         public virtual void HandleMouseInput(float delta, MouseState mouseState, MouseState old) { }
         public virtual void HandleGamePadInput(float delta, PlayerIndex player, GamePadState gamePadState, GamePadState old) { }
 
         protected override void Initialize() {
-            _graphics.PreferredBackBufferWidth = ScreenSize.Width;
-            _graphics.PreferredBackBufferHeight = ScreenSize.Height;
-            _graphics.ApplyChanges();
             EntityManager = new EntityManager(this);
-            this.AddService(InputManager);
+            this.AddComponent(InputManager);
             this.AddService(TimeScaleManager);
             this.AddService(_frameRateCounter);
             base.Initialize();
@@ -53,7 +65,6 @@ namespace JdGameBase.Core.GameComponents {
 
         protected override void LoadContent() {
             SpriteBatch = new SpriteBatch(GraphicsDevice);
-            AspectRatio = GraphicsDevice.Viewport.AspectRatio;
             base.LoadContent();
         }
 
@@ -66,14 +77,7 @@ namespace JdGameBase.Core.GameComponents {
             _frameRateCounter.Update(gameTime);
             var delta = TimeScaleManager.UpdateTimescale(gameTime);
 
-            InputManager.HandleInput(delta, HandleKeyboardInput);
-#if !XBOX360
-            InputManager.HandleInput(delta, HandleMouseInput);
-#endif
-            InputManager.HandleInput(delta, PlayerIndex.One, HandleGamePadInput);
-            InputManager.HandleInput(delta, PlayerIndex.Two, HandleGamePadInput);
-            InputManager.HandleInput(delta, PlayerIndex.Three, HandleGamePadInput);
-            InputManager.HandleInput(delta, PlayerIndex.Four, HandleGamePadInput);
+            InputManager.HandleInput(this, delta);
 
             Update(delta, gameTime);
             base.Update(gameTime);

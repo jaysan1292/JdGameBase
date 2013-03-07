@@ -21,7 +21,7 @@ namespace JdGameBase.Parallax {
         private readonly SpriteBatch _spriteBatch;
         private Rectangle _viewport;
 
-        public ParallaxManager(Game game)
+        public ParallaxManager(JdGame game)
             : base(game) {
             _layers = new List<Layer>();
             _spriteBatch = new SpriteBatch(game.GraphicsDevice);

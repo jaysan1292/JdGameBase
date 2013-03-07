@@ -95,7 +95,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Core\Geometry\RectangularPrism.cs" />
+    <Compile Include="Utils\SpriteBatchOptions.cs" />
     <Compile Include="Core\Scenes\IScene.cs" />
     <Compile Include="Core\Scenes\ISceneTransition.cs" />
     <Compile Include="Core\Scenes\Scene.cs" />
@@ -104,7 +104,6 @@
     <Compile Include="Core\Interfaces\ICollisionEntity.cs" />
     <Compile Include="Core\Interfaces\IEntity.cs" />
     <Compile Include="Core\Interfaces\IQuadObject.cs" />
-    <Compile Include="Core\Geometry\Ellipse.cs" />
     <Compile Include="Core\Services\CommandManager.cs" />
     <Compile Include="Core\Interfaces\ICommand.cs" />
     <Compile Include="Utils\Quadtree.cs" />
