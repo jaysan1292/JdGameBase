@@ -95,6 +95,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\Geometry\RectangularPrism.cs" />
+    <Compile Include="ThreeDimensional\ThreeDimensional.cs" />
     <Compile Include="Core\Interfaces\ICollisionEntity.cs" />
     <Compile Include="Core\Interfaces\IEntity.cs" />
     <Compile Include="Core\Interfaces\IQuadObject.cs" />
