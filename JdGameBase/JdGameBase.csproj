@@ -96,6 +96,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Core\Geometry\RectangularPrism.cs" />
+    <Compile Include="Core\Scenes\IScene.cs" />
+    <Compile Include="Core\Scenes\ISceneTransition.cs" />
+    <Compile Include="Core\Scenes\Scene.cs" />
+    <Compile Include="Core\Scenes\SceneManager.cs" />
     <Compile Include="ThreeDimensional\ThreeDimensional.cs" />
     <Compile Include="Core\Interfaces\ICollisionEntity.cs" />
     <Compile Include="Core\Interfaces\IEntity.cs" />
