@@ -5,6 +5,7 @@
 
 using System;
 
+using JdGameBase.Core.GameComponents;
 using JdGameBase.ThreeDimensional.Interfaces;
 
 using Microsoft.Xna.Framework;
@@ -22,7 +23,6 @@ namespace JdGameBase.ThreeDimensional {
 
         public interface ICamera3D {
             float AspectRatio { get; set; }
-            Matrix World { get; }
             Matrix View { get; }
             Matrix Projection { get; }
             IEntity3D Target { get; set; }
@@ -32,14 +32,15 @@ namespace JdGameBase.ThreeDimensional {
     }
 
     namespace Camera {
-        public class Camera3D : ICamera3D {
-            private Matrix _world;
+        public class Camera3D : JdComponent, ICamera3D {
             private Matrix _view;
             private Matrix _projection;
 
+            public Camera3D(JdGame game)
+                : base(game) { }
+
             public Vector3 Position { get; set; }
             public float AspectRatio { get; set; }
-            public Matrix World { get { return _world; } }
             public Matrix View { get { return _view; } }
             public Matrix Projection { get { return _projection; } }
             public IEntity3D Target { get; set; }
