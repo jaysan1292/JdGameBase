@@ -26,6 +26,24 @@ namespace JdGameBase.Extensions {
             return MathHelper.ToRadians(f);
         }
 
+        /// <summary>
+        /// Adds the specified amount to the given float, but wraps around to zero if
+        /// it reaches the specified max value.
+        /// </summary>
+        /// <param name="value">The initial value.</param>
+        /// <param name="amount">The amount to add.</param>
+        /// <param name="max">The maximum value for value.</param>
+        /// <returns></returns>
+        [DebuggerHidden]
+        public static float Wrap(this float value, float amount, float max) {
+            return (value + amount) % max;
+        }
+
+        [DebuggerHidden]
+        public static float Clamp(this float value, float amount, float min, float max) {
+            return MathHelper.Clamp(value + amount, min, max);
+        }
+
         #endregion
 
         #region Quaternion

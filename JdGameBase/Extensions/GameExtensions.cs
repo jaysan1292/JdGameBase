@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.InteropServices;
 
 using JdGameBase.Core.Geometry;
 
@@ -151,6 +152,11 @@ namespace JdGameBase.Extensions {
             spriteBatch.DrawPolygon(texture, color, circlePoly);
         }
 
+        [DebuggerHidden]
+        public static Vector2 GetWindowCenter(this Game game) {
+            return game.Window.ClientBounds.CenterVector();
+        }
+
         #endregion
 
         #region Input
@@ -184,14 +190,39 @@ namespace JdGameBase.Extensions {
 
         #endregion
 
+#if WINDOWS
         #region Mouse
+        [DllImport("user32.dll")]
+        public static extern bool ClipCursor(ref Rectangle lpRect);
+
+        [DebuggerHidden]
+        public static void ClipCursor(this Game game) {
+            var window = new Rectangle(game.Window.ClientBounds.Left,
+                                       game.Window.ClientBounds.Top,
+                                       game.Window.ClientBounds.Right,
+                                       game.Window.ClientBounds.Bottom);
+            ClipCursor(ref window);
+        }
+
+        [DebuggerHidden]
+        public static void KeepMouseInWindow(this Game game) {
+            var center = game.Window.ClientBounds.Center;
+            Mouse.SetPosition(center.X, center.Y);
+            game.ClipCursor();
+        }
 
         [DebuggerHidden]
         public static Vector2 GetPosition(this MouseState mouse) {
             return new Vector2(mouse.X, mouse.Y);
         }
 
+        [DebuggerHidden]
+        public static Vector2 Offset(this MouseState current, MouseState old) {
+            return current.GetPosition() - old.GetPosition();
+        }
+
         #endregion
+#endif
 
         [DebuggerHidden]
         public static bool WasJustPressed(this ButtonState button, ButtonState old) {
