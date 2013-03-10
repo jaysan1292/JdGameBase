@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using JdGameBase.Core.GameComponents;
+using JdGameBase.Core.Interfaces;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
@@ -26,7 +27,7 @@ namespace JdGameBase.Core.Services {
 
         public event EventHandler<GamePadDisconnectedEventArgs> OnGamePadDisconnected; //TODO: OnGamePadDisconnected
 
-        public void HandleInput(JdGame game, float delta) {
+        public void HandleInput(IInputHandler game, float delta) {
             HandleInput(delta, game.HandleKeyboardInput);
 #if !XBOX360
             HandleInput(delta, game.HandleMouseInput);

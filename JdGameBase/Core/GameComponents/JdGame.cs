@@ -18,7 +18,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace JdGameBase.Core.GameComponents {
     public abstract class JdGame : Game, IInputHandler {
-        protected readonly InputManager InputManager;
+        public readonly InputManager InputManager;
         protected readonly TimeScaleManager TimeScaleManager;
         private readonly FrameRateCounter _frameRateCounter;
         private readonly GraphicsDeviceManager _graphics;

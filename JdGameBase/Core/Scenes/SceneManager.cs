@@ -29,6 +29,8 @@ namespace JdGameBase.Core.Scenes {
 
         #endregion
 
+        public string ActiveScene { get { return _activeScenes.Peek().Name; } }
+
         public SceneManager(JdGame game)
             : base(game) {
             _allScenes = new List<IScene>();
@@ -39,6 +41,11 @@ namespace JdGameBase.Core.Scenes {
             base.Initialize();
             _spriteBatch = new SpriteBatch(Game.GraphicsDevice);
             _blank = ColorTexture.Create(GraphicsDevice, Color.White);
+        }
+
+        protected override void LoadContent() {
+            _allScenes.ForEach(x => x.LoadContent(Game.Content));
+            base.LoadContent();
         }
 
         public void Push(string sceneName) {
@@ -54,7 +61,10 @@ namespace JdGameBase.Core.Scenes {
         }
 
         public override void Update(float delta, GameTime gameTime) {
-            _activeScenes.ForEach(x => x.Update(delta, gameTime));
+            _activeScenes.ForEach(x => {
+                Game.InputManager.HandleInput(x, delta);
+                x.Update(delta, gameTime);
+            });
         }
 
         public override void Draw(GameTime gameTime) {

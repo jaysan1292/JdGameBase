@@ -8,7 +8,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
+using JdGameBase.Core.GameComponents;
+
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
 namespace JdGameBase.Core.Scenes {
@@ -23,8 +27,17 @@ namespace JdGameBase.Core.Scenes {
         public SceneManager Parent { get; set; }
         public float TransitionDelta { get; private set; }
         public SceneState CurrentState { get; private set; }
-
+        public GraphicsDevice GraphicsDevice { get { return Parent.GraphicsDevice; } }
+        public JdGame Game { get { return Parent.Game; } }
         #endregion
+
+        public Scene(string name) {
+            Name = name;
+        }
+
+        public virtual void Initialize() { }
+
+        public virtual void LoadContent(ContentManager content) { }
 
         /// <summary>
         /// Called when this scene should pause itself.

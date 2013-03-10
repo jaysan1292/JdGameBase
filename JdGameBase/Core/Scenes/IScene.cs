@@ -12,6 +12,8 @@ using JdGameBase.Core.GameComponents;
 using JdGameBase.Core.Interfaces;
 
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace JdGameBase.Core.Scenes {
     public enum SceneState {
@@ -39,7 +41,7 @@ namespace JdGameBase.Core.Scenes {
     /// <summary>
     /// Manages a single scene's state and resources.
     /// </summary>
-    public interface IScene : IUpdatableEntity, IInputHandler {
+    public interface IScene : IGameComponent, IUpdatableEntity, IInputHandler {
         #region Properties
 
         /// <summary>
@@ -50,8 +52,12 @@ namespace JdGameBase.Core.Scenes {
         SceneManager Parent { get; set; }
         float TransitionDelta { get; }
         SceneState CurrentState { get; }
+        GraphicsDevice GraphicsDevice { get; }
+        JdGame Game { get; }
 
         #endregion
+
+        void LoadContent(ContentManager content);
 
         /// <summary>
         /// Called when this scene should pause itself.
