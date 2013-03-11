@@ -4,6 +4,7 @@
 // Author: Jason Recillo
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -49,7 +50,7 @@ namespace JdGameBase.Extensions {
 
         [DebuggerHidden]
         public static bool IsType<T>(this object o) {
-            return IsType(o, typeof(T));
+            return o.IsType(typeof(T));
         }
 
         [DebuggerHidden]
@@ -60,7 +61,12 @@ namespace JdGameBase.Extensions {
         [DebuggerHidden]
         public static bool IsDerivedFrom<TBaseType>(this Type type) {
             if (type.BaseType == null) return false;
-            return type == typeof(TBaseType) || IsDerivedFrom<TBaseType>(type.BaseType);
+            return type == typeof(TBaseType) || type.BaseType.IsDerivedFrom<TBaseType>();
+        }
+
+        [DebuggerHidden]
+        public static bool Implements<TInterface>(this Type type) {
+            return type.GetInterfaces().Contains(typeof(TInterface));
         }
 
         [DebuggerHidden]
@@ -80,7 +86,7 @@ namespace JdGameBase.Extensions {
 
         [DebuggerHidden]
         public static void Swap<T>(this IList<T> list, T first, T second) {
-            Swap(list, list.IndexOf(first), list.IndexOf(second));
+            list.Swap(list.IndexOf(first), list.IndexOf(second));
         }
     }
 }

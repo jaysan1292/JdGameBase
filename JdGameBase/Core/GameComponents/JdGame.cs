@@ -77,7 +77,7 @@ namespace JdGameBase.Core.GameComponents {
             _frameRateCounter.Update(gameTime);
             var delta = TimeScaleManager.UpdateTimescale(gameTime);
 
-            InputManager.HandleInput(this, delta);
+            InputManager.DoUpdate(delta);
 
             Update(delta, gameTime);
             base.Update(gameTime);

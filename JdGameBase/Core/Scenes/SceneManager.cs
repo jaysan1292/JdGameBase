@@ -19,7 +19,7 @@ namespace JdGameBase.Core.Scenes {
     /// <summary>
     /// Manages scenes and updates the currently active scene.
     /// </summary>
-    public class SceneManager : JdDrawableComponent {
+    public class SceneManager : JdDrawableComponent, IInputHandler {
         #region Fields
 
         private List<IScene> _allScenes;
@@ -91,6 +91,18 @@ namespace JdGameBase.Core.Scenes {
         private IScene GetScene(string sceneName) {
             if (string.IsNullOrWhiteSpace(sceneName)) throw new ArgumentNullException("sceneName");
             return _allScenes.Find(x => x.Name == sceneName);
+        }
+
+        public void HandleGamePadInput(float delta, PlayerIndex player, GamePadState gs, GamePadState old) {
+            _activeScenes.ForEach(x => x.HandleGamePadInput(delta, player, gs, old));
+        }
+
+        public void HandleKeyboardInput(float delta, KeyboardState ks, KeyboardState old) {
+            _activeScenes.ForEach(x => x.HandleKeyboardInput(delta, ks, old));
+        }
+
+        public void HandleMouseInput(float delta, MouseState ms, MouseState old) {
+            _activeScenes.ForEach(x => x.HandleMouseInput(delta, ms, old));
         }
     }
 }
