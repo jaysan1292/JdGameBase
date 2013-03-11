@@ -26,7 +26,7 @@ namespace JdGameBase.Core.Services {
 
         public Color DebugColor { get; set; }
 
-        public EntityManager(Game game)
+        public EntityManager(JdGame game)
             : base(game) {
             _entities = new List<IEntity>();
             _debugTexture = ColorTexture.Create(game.GraphicsDevice, Color.White);

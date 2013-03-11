@@ -28,7 +28,7 @@ namespace JdGameBase.Camera {
         private Viewport _viewport;
         private float _zoom;
 
-        public Camera2D(Game game)
+        public Camera2D(JdGame game)
             : base(game) {
             _game = game;
         }

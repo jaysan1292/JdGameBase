@@ -22,7 +22,7 @@ namespace JdGameBase.Core.Services {
         private MouseState _oldMouseState;
 #endif
 
-        public InputManager(Game game)
+        public InputManager(JdGame game)
             : base(game) { }
 
         public event EventHandler<GamePadDisconnectedEventArgs> OnGamePadDisconnected; //TODO: OnGamePadDisconnected
