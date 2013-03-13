@@ -4,7 +4,10 @@
 // Author: Jason Recillo
 
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 
 using JdGameBase.Core.Geometry;
 
@@ -44,11 +47,21 @@ namespace JdGameBase.Extensions {
             return MathHelper.Clamp(value + amount, min, max);
         }
 
+        [DebuggerHidden]
+        public static bool WithinRange(this float value, float min, float max) {
+            return min <= value && value >= max;
+        }
+
         #endregion
 
         #region Quaternion
 
         #region Yaw
+
+        [DebuggerHidden]
+        public static float Yaw(this Quaternion q) {
+            return q.X;
+        }
 
         [DebuggerHidden]
         public static Quaternion Yaw(this Quaternion q, float value) {
@@ -77,6 +90,11 @@ namespace JdGameBase.Extensions {
         #region Pitch
 
         [DebuggerHidden]
+        public static float Pitch(this Quaternion q) {
+            return q.Y;
+        }
+
+        [DebuggerHidden]
         public static Quaternion Pitch(this Quaternion q, float value) {
             return q * Quaternion.CreateFromYawPitchRoll(0, value, 0);
         }
@@ -101,6 +119,11 @@ namespace JdGameBase.Extensions {
         #endregion
 
         #region Roll
+
+        [DebuggerHidden]
+        public static float Roll(this Quaternion q) {
+            return q.Z;
+        }
 
         [DebuggerHidden]
         public static Quaternion Roll(this Quaternion q, float value) {
@@ -138,6 +161,9 @@ namespace JdGameBase.Extensions {
             roll = (float) Math.Atan2(2f * (x * y + w * z), w * w + x * x - y * y - z * z);
         }
 
+        #endregion
+
+        #region Matrix
         #endregion
 
         #region Rectangles
@@ -184,7 +210,7 @@ namespace JdGameBase.Extensions {
 
         [DebuggerHidden]
         public static Vector2 CenterVector(this Rectangle rect) {
-            return new Vector2(rect.Center.X, rect.Center.Y);
+            return new Vector2(rect.Width / 2f, rect.Height / 2f);
         }
 
         [DebuggerHidden]
@@ -229,7 +255,7 @@ namespace JdGameBase.Extensions {
         }
 
         [DebuggerHidden]
-        public static Rectangle ToRectangle(this Vector2 vector, int width, int height) {
+        public static Rectangle ToRectangle(this Vector2 vector, int width = 0, int height = 0) {
             return new Rectangle((int) vector.X, (int) vector.Y, width, height);
         }
 
@@ -275,7 +301,34 @@ namespace JdGameBase.Extensions {
 
         #endregion
 
+        #region Points
+
+        [DebuggerHidden]
+        public static Vector2[] ConvertToVectors(this Point[] points) {
+            var vectors = new Vector2[points.Length];
+            for (var i = 0; i < points.Length; i++) vectors[i] = new Vector2(points[i].X, points[i].Y);
+            return vectors;
+        }
+
+        [DebuggerHidden]
+        public static Vector2 ToVector2(this Point p) {
+            return new Vector2(p.X, p.Y);
+        }
+
+        #endregion
+
         #region Vector2
+
+        [DebuggerHidden]
+        public static Vector2 Wrap(this Vector2 v, Vector2 amount, Vector2 max) {
+            return new Vector2((v.X + amount.X) % max.X,
+                               (v.Y + amount.Y) % max.Y);
+        }
+
+        [DebuggerHidden]
+        public static Vector2 Wrap(this Vector2 v, float amount, float max) {
+            return v.Wrap(new Vector2(amount), new Vector2(max));
+        }
 
         [DebuggerHidden]
         public static Vector3 ToVector3(this Vector2 v, float z = 0f) {
@@ -285,6 +338,11 @@ namespace JdGameBase.Extensions {
         [DebuggerHidden]
         public static float ToAngle(this Vector2 v) {
             return (float) Math.Atan2(v.Y, v.X);
+        }
+
+        [DebuggerHidden]
+        public static Point ToPoint(this Vector2 v) {
+            return new Point(v.X.ToNearestInt(), v.Y.ToNearestInt());
         }
 
         /// <summary>
@@ -324,6 +382,34 @@ namespace JdGameBase.Extensions {
         [DebuggerHidden]
         public static Vector2 Offset(this Vector2 vector, float offset) {
             return Offset(vector, new Vector2(offset));
+        }
+
+        #endregion
+
+        #region Vector3
+
+        [DebuggerHidden]
+        public static Vector3 Offset(this Vector3 v, Vector3 amount) {
+            return Vector3.Add(v, amount);
+        }
+
+        [DebuggerHidden]
+        public static Vector3 Offset(this Vector3 v, Vector2 amount, float amountZ) {
+            return v.Offset(new Vector3(amount, amountZ));
+        }
+
+        [DebuggerHidden]
+        public static Vector3 Offset(this Vector3 v, float x, float y, float z) {
+            return v.Offset(new Vector3(x, y, z));
+        }
+
+        #endregion
+
+        #region Vector4
+
+        [DebuggerHidden]
+        public static Vector3 ToVector3(this Vector4 v) {
+            return new Vector3(v.X, v.Y, v.Z);
         }
 
         #endregion
