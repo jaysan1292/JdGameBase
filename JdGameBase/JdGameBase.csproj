@@ -95,6 +95,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ThreeDimensional\Skybox.cs" />
     <Compile Include="Utils\SpriteBatchOptions.cs" />
     <Compile Include="Core\Geometry\RectangularPrism.cs" />
     <Compile Include="ThreeDimensional\ThreeDimensional.cs" />
