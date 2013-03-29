@@ -1,9 +1,7 @@
-﻿// Project: JdGameBase
-// Filename: Noise.cs
-// 
-// Author: Jason Recillo
-
-using System;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 
 // http://code.google.com/p/simplexnoise/source/browse/trunk/SimplexNoise/Noise.cs
 
@@ -11,9 +9,10 @@ namespace JdGameBase.Utils {
     /// <summary>
     /// Implementation of the Perlin simplex noise, an improved Perlin noise algorithm.
     /// Based loosely on SimplexNoise1234 by Stefan Gustavson <http://staffwww.itn.liu.se/~stegu/aqsis/aqsis-newnoise/>
-    /// 
     /// </summary>
     public class Noise {
+        private static readonly byte[] Perm;
+
         static Noise() {
             const int permlen = 512;
             var random = new Random();
@@ -21,8 +20,6 @@ namespace JdGameBase.Utils {
 
             for (var i = 0; i < permlen; i++) Perm[i] = (byte) random.Next(0, byte.MaxValue);
         }
-
-        private static readonly byte[] Perm;
 
         /// <summary>
         /// 1D simplex noise

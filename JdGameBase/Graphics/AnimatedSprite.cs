@@ -1,11 +1,8 @@
-﻿// Project: JdGameBase
-// Filename: AnimatedSprite.cs
-// 
-// Author: Jason Recillo
-
-using System;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 
 using JdGameBase.Core;
 using JdGameBase.Core.Interfaces;
@@ -26,12 +23,14 @@ namespace JdGameBase.Graphics {
         private readonly float _frameRate;
         private readonly int _rows;
         private readonly Sprite _spriteSheet;
+        private bool _active;
         private int _currentFrame;
+        private float _delta; // temp variable for now
         private bool _forward;
         private Rectangle[] _frames;
         private Rectangle? _sheetRect;
+        private bool _shouldInvokeEvent;
         private float _timeSinceLastFrame;
-        private bool _active;
 
         public bool Active {
             get { return _active; }
@@ -44,7 +43,77 @@ namespace JdGameBase.Graphics {
         public Rectangle? SheetRect { get { return _sheetRect; } }
         public float FrameRate { get { return _frameRate; } }
 
+        public override void Draw(SpriteBatch spriteBatch) {
+            if (!Active) return;
+            _spriteSheet.Draw(spriteBatch);
+
+            // TODO: When in a SpriteSheet, Update() is called regardless of whether this sprite is being drawn, causing its AnimationCompleted event to fire when not needed.
+            if (_shouldInvokeEvent && OnAnimationCompleted != null) OnAnimationCompleted.Invoke(this, new GameEventArgs(_delta));
+        }
+
         public event EventHandler<GameEventArgs> OnAnimationCompleted;
+
+        public void ResetAnimation() {
+            _currentFrame = 0;
+            _shouldInvokeEvent = false;
+            _timeSinceLastFrame = 0f;
+            _forward = true;
+        }
+
+        public override void Update(float delta, GameTime gameTime) {
+            if (!Active) return;
+            _timeSinceLastFrame += delta;
+            _delta = delta;
+
+            if (!(_timeSinceLastFrame > _frameRate)) return;
+
+            if (_bounce) {
+                if (_currentFrame == 0 && !_forward ||
+                    _currentFrame == _frames.Length - 1 && _forward)
+                    _forward = !_forward;
+                _currentFrame += _forward ? 1 : -1;
+            } else _currentFrame = (_currentFrame + 1) % _frames.Length;
+
+            if (_currentFrame == 0) _shouldInvokeEvent = false;
+            _shouldInvokeEvent = (_currentFrame == _frames.Length - 1);
+
+            _spriteSheet.SourceRect = _frames[_currentFrame];
+            _timeSinceLastFrame = 0f;
+        }
+
+        private void InitTexture(Texture2D spriteSheet) {
+            var frames = new List<Rectangle>(_columns * _rows);
+            int rectWidth, rectHeight;
+            int xOffset = 0, yOffset = 0;
+            if (_sheetRect.HasValue) {
+                rectWidth = _sheetRect.Value.Width / _columns;
+                rectHeight = _sheetRect.Value.Height / _rows;
+                xOffset = _sheetRect.Value.X;
+                yOffset = _sheetRect.Value.Y;
+            } else {
+                if (spriteSheet == null) return;
+                rectWidth = spriteSheet.Width / _columns;
+                rectHeight = spriteSheet.Height / _rows;
+            }
+            for (var y = 0; y < _rows; y++) {
+                for (var x = 0; x < _columns; x++) {
+                    frames.Add(new Rectangle {
+                        X = x * rectWidth + xOffset,
+                        Y = y * rectHeight + yOffset,
+                        Width = rectWidth,
+                        Height = rectHeight
+                    });
+                }
+            }
+            _spriteSheet.SourceRect = frames[0];
+            _frames = frames.ToArray();
+        }
+
+        [DebuggerHidden]
+        public static float FramesPerSecond(uint frames) {
+            if (frames == 0) throw new ArgumentException("frames must not be zero", "frames");
+            return 1f / frames;
+        }
 
         #region ISprite Implementation
 
@@ -132,79 +201,5 @@ namespace JdGameBase.Graphics {
         }
 
         #endregion
-
-        public void ResetAnimation() {
-            _currentFrame = 0;
-            _shouldInvokeEvent = false;
-            _timeSinceLastFrame = 0f;
-            _forward = true;
-        }
-
-        private bool _shouldInvokeEvent;
-
-        public override void Draw(SpriteBatch spriteBatch) {
-            if (!Active) return;
-            _spriteSheet.Draw(spriteBatch);
-
-            // TODO: When in a SpriteSheet, Update() is called regardless of whether this sprite is being drawn, causing its AnimationCompleted event to fire when not needed.
-            if (_shouldInvokeEvent && OnAnimationCompleted != null) OnAnimationCompleted.Invoke(this, new GameEventArgs(_delta));
-        }
-
-        private float _delta; // temp variable for now
-
-        public override void Update(float delta, GameTime gameTime) {
-            if (!Active) return;
-            _timeSinceLastFrame += delta;
-            _delta = delta;
-
-            if (!(_timeSinceLastFrame > _frameRate)) return;
-
-            if (_bounce) {
-                if (_currentFrame == 0 && !_forward ||
-                    _currentFrame == _frames.Length - 1 && _forward)
-                    _forward = !_forward;
-                _currentFrame += _forward ? 1 : -1;
-            } else _currentFrame = (_currentFrame + 1) % _frames.Length;
-
-            if (_currentFrame == 0) _shouldInvokeEvent = false;
-            _shouldInvokeEvent = (_currentFrame == _frames.Length - 1);
-
-            _spriteSheet.SourceRect = _frames[_currentFrame];
-            _timeSinceLastFrame = 0f;
-        }
-
-        private void InitTexture(Texture2D spriteSheet) {
-            var frames = new List<Rectangle>(_columns * _rows);
-            int rectWidth, rectHeight;
-            int xOffset = 0, yOffset = 0;
-            if (_sheetRect.HasValue) {
-                rectWidth = _sheetRect.Value.Width / _columns;
-                rectHeight = _sheetRect.Value.Height / _rows;
-                xOffset = _sheetRect.Value.X;
-                yOffset = _sheetRect.Value.Y;
-            } else {
-                if (spriteSheet == null) return;
-                rectWidth = spriteSheet.Width / _columns;
-                rectHeight = spriteSheet.Height / _rows;
-            }
-            for (var y = 0; y < _rows; y++) {
-                for (var x = 0; x < _columns; x++) {
-                    frames.Add(new Rectangle {
-                        X = x * rectWidth + xOffset,
-                        Y = y * rectHeight + yOffset,
-                        Width = rectWidth,
-                        Height = rectHeight
-                    });
-                }
-            }
-            _spriteSheet.SourceRect = frames[0];
-            _frames = frames.ToArray();
-        }
-
-        [DebuggerHidden]
-        public static float FramesPerSecond(uint frames) {
-            if (frames == 0) throw new ArgumentException("frames must not be zero", "frames");
-            return 1f / frames;
-        }
     }
 }

@@ -1,10 +1,8 @@
-﻿// Project: JdGameBase
-// Filename: Pool.cs
-// 
-// Author: Jason Recillo
-
-using System;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 
 using JdGameBase.Extensions;
 
@@ -21,16 +19,18 @@ namespace JdGameBase.Utils {
     public class Pool<T> where T : class {
         // the amount to enlarge the items array if New is called and there are no free items
         private const int ResizeAmount = 20;
+
+        // used for allocating instances of the object
         private readonly Func<T> _allocate;
 
         // whether or not the pool is allowed to resize
         private readonly bool _canResize;
 
-        // the actual items of the pool
-        private T[] _items;
-
         // used for checking if a given object is still valid
         private readonly Predicate<T> _validate;
+
+        // the actual items of the pool
+        private T[] _items;
 
         /// <summary>
         /// Creates a new pool with a specific starting size.
@@ -58,8 +58,6 @@ namespace JdGameBase.Utils {
             _validate = validateFunc;
             _allocate = allocateFunc;
         }
-
-        // used for allocating instances of the object
 
         /// <summary>
         /// Gets or sets a delegate used for initializing objects before returning them from the New method.

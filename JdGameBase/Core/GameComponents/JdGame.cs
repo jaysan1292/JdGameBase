@@ -1,9 +1,4 @@
-﻿// Project: JdGameBase
-// Filename: JdGame.cs
-// 
-// Author: Jason Recillo
-
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -41,6 +36,7 @@ namespace JdGameBase.Core.GameComponents {
 
         protected int FramesPerSecond { get { return _frameRateCounter.FramesPerSecond; } }
         public float AspectRatio { get { return GraphicsDevice.Viewport.AspectRatio; } }
+        public GraphicsDeviceManager Graphics { get { return _graphics; } }
 
         public Rectangle ScreenBounds {
             get { return GraphicsDevice.Viewport.Bounds; }
@@ -52,8 +48,8 @@ namespace JdGameBase.Core.GameComponents {
         }
 
         public virtual void HandleKeyboardInput(float delta, KeyboardState ks, KeyboardState old) { }
-        public virtual void HandleMouseInput(float delta, MouseState mouseState, MouseState old) { }
-        public virtual void HandleGamePadInput(float delta, PlayerIndex player, GamePadState gamePadState, GamePadState old) { }
+        public virtual void HandleMouseInput(float delta, MouseState ms, MouseState old) { }
+        public virtual void HandleGamePadInput(float delta, PlayerIndex player, GamePadState gps, GamePadState old) { }
 
         protected override void Initialize() {
             EntityManager = new EntityManager(this);

@@ -1,9 +1,6 @@
-﻿// Project: JdGameBase
-// Filename: MathUtils.cs
-// 
-// Author: Jason Recillo
-
-using System;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 
 using JdGameBase.Extensions;

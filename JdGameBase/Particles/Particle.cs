@@ -1,9 +1,7 @@
-﻿// Project: JdGameBase
-// Filename: Particle.cs
-// 
-// Author: Jason Recillo
-
-using System;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 
 using JdGameBase.Core;
 using JdGameBase.Interpolators;
@@ -17,12 +15,12 @@ namespace JdGameBase.Particles {
         public readonly float OriginalScale;
         public readonly float OriginalTimeToLive;
         public readonly Texture2D Texture;
+        private readonly ColorInterpolator _color;
+        private readonly FloatInterpolator _rotation;
+        private readonly FloatInterpolator _scale;
+        private readonly Vector2Interpolator _velocity;
         public bool Alive;
         public ParticleConfig Config;
-        private Vector2Interpolator _velocity;
-        private FloatInterpolator _rotation;
-        private FloatInterpolator _scale;
-        private ColorInterpolator _color;
 
         public Particle(Texture2D texture, ParticleConfig config) {
             Config = config;

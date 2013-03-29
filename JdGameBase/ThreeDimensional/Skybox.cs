@@ -1,19 +1,19 @@
-﻿// Project: GameAssignment5
-// Filename: Skybox.cs
-// 
-// Author: Jason Recillo
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace GameAssignment5 {
+namespace JdGameBase.ThreeDimensional {
     //http://rbwhitaker.wikidot.com/skyboxes-1
     public class Skybox {
-        private readonly Model _skybox;
-        private readonly TextureCube _skyboxTexture;
-        private readonly Effect _skyboxEffect;
         private const float Size = 5000f;
+        private readonly Model _skybox;
+        private readonly Effect _skyboxEffect;
+        private readonly TextureCube _skyboxTexture;
 
         public Skybox(string skyboxTexture, string skyboxCube, string skyboxEffect, ContentManager content) {
             _skybox = content.Load<Model>(skyboxCube);

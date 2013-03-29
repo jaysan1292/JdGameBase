@@ -1,9 +1,7 @@
-﻿// Project: JdGameBase
-// Filename: Camera2D.cs
-// 
-// Author: Jason Recillo
-
-using System;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 
 using JdGameBase.Core;
 using JdGameBase.Core.GameComponents;
@@ -123,6 +121,10 @@ namespace JdGameBase.Camera {
 
         #endregion
 
+        public bool IsInView(Vector2 position, Texture2D texture) {
+            return IsInView(position, texture.Bounds);
+        }
+
         public override void Initialize() {
             _viewport = _game.GraphicsDevice.Viewport;
             ScreenCenter = new Vector2(_viewport.Width / 2f, _viewport.Height / 2f);
@@ -182,10 +184,6 @@ namespace JdGameBase.Camera {
 
         public bool IsInView(Entity entity) {
             return IsInView(entity.BoundingBox.TopLeft(), entity.BoundingBox);
-        }
-
-        public bool IsInView(Vector2 position, Texture2D texture) {
-            return IsInView(position, texture.Bounds);
         }
 
         public bool IsInView(Vector2 position, Rectangle bounds) {

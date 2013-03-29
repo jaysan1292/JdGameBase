@@ -1,19 +1,16 @@
-﻿// Project: JdGameBase
-// Filename: SceneManager.cs
-// 
-// Author: Jason Recillo
-
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
 using JdGameBase.Core.GameComponents;
+using JdGameBase.Core.Interfaces;
 using JdGameBase.Extensions;
 using JdGameBase.Graphics;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
 namespace JdGameBase.Core.Scenes {
     /// <summary>
@@ -26,6 +23,7 @@ namespace JdGameBase.Core.Scenes {
         private Stack<IScene> _activeScenes;
         private SpriteBatch _spriteBatch;
         private Texture2D _blank;
+        private bool _initialized;
 
         #endregion
 
@@ -38,14 +36,21 @@ namespace JdGameBase.Core.Scenes {
         }
 
         public override void Initialize() {
+            _allScenes.ForEach(x => x.Initialize());
             base.Initialize();
-            _spriteBatch = new SpriteBatch(Game.GraphicsDevice);
-            _blank = ColorTexture.Create(GraphicsDevice, Color.White);
+            _initialized = true;
         }
 
         protected override void LoadContent() {
+            _spriteBatch = new SpriteBatch(Game.GraphicsDevice);
+            _blank = ColorTexture.Create(GraphicsDevice, Color.White);
             _allScenes.ForEach(x => x.LoadContent(Game.Content));
             base.LoadContent();
+        }
+
+        protected override void UnloadContent() {
+            _allScenes.ForEach(x => x.UnloadContent());
+            base.UnloadContent();
         }
 
         public void Push(string sceneName) {
@@ -79,11 +84,17 @@ namespace JdGameBase.Core.Scenes {
 
         public void AddScene(IScene scene) {
             scene.Parent = this;
+            //            if (!_initialized) {
+            //                scene.Initialize();
+            //                scene.LoadContent(Game.Content);
+            //            }
             _allScenes.Add(scene);
+            if (_activeScenes.Empty()) _activeScenes.Push(scene);
         }
 
         public void RemoveScene(string sceneName) {
             var scene = GetScene(sceneName);
+            scene.UnloadContent();
             _allScenes.Remove(scene);
             _activeScenes.ToList().Remove(scene);
         }
@@ -93,8 +104,8 @@ namespace JdGameBase.Core.Scenes {
             return _allScenes.Find(x => x.Name == sceneName);
         }
 
-        public void HandleGamePadInput(float delta, PlayerIndex player, GamePadState gs, GamePadState old) {
-            _activeScenes.ForEach(x => x.HandleGamePadInput(delta, player, gs, old));
+        public void HandleGamePadInput(float delta, PlayerIndex player, GamePadState gps, GamePadState old) {
+            _activeScenes.ForEach(x => x.HandleGamePadInput(delta, player, gps, old));
         }
 
         public void HandleKeyboardInput(float delta, KeyboardState ks, KeyboardState old) {

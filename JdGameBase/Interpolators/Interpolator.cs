@@ -1,9 +1,7 @@
-﻿// Project: JdGameBase
-// Filename: Interpolator.cs
-// 
-// Author: Jason Recillo
-
-using System;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace JdGameBase.Interpolators {
     // slightly modified from: http://www.xnawiki.com/index.php/Interpolators
@@ -12,7 +10,6 @@ namespace JdGameBase.Interpolators {
     /// </summary>
     /// <typeparam name="T"></typeparam>
     public abstract class Interpolator<T> {
-        public event EventHandler OnFinishedInterpolating;
         protected float CurrentDuration;
         public bool IsActive;
         protected bool SmoothStep;
@@ -20,6 +17,7 @@ namespace JdGameBase.Interpolators {
         public T Value1 { get; protected set; }
         public T Value2 { get; protected set; }
         public T CurrentValue { get; protected set; }
+        public event EventHandler OnFinishedInterpolating;
 
         /// <summary>
         /// Starts the interpolator.

@@ -1,9 +1,5 @@
-// Project: JdGameBase
-// Filename: EntityManager.cs
-// 
-// Author: Jason Recillo
-
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -24,8 +20,6 @@ namespace JdGameBase.Core.Services {
         private readonly List<IEntity> _entities;
         public bool DrawBoundingBoxes;
 
-        public Color DebugColor { get; set; }
-
         public EntityManager(JdGame game)
             : base(game) {
             _entities = new List<IEntity>();
@@ -35,6 +29,8 @@ namespace JdGameBase.Core.Services {
             _camera = game.GetComponent<Camera2D>();
             _containsCamera = _camera != null;
         }
+
+        public Color DebugColor { get; set; }
 
         public int EntityCount { get { return _entities.Count /*+ _drawables.Count + _updatables.Count*/; } }
 

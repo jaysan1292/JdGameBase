@@ -79,6 +79,8 @@
     <Reference Include="System">
       <Private>False</Private>
     </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml">
       <Private>False</Private>
     </Reference>
@@ -95,6 +97,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\InputHandler.cs" />
+    <Compile Include="ThreeDimensional\Camera\Camera3D.cs" />
+    <Compile Include="ThreeDimensional\Interfaces\ICamera3D.cs" />
+    <Compile Include="ThreeDimensional\Interfaces\IDrawableEntity3D.cs" />
+    <Compile Include="ThreeDimensional\Interfaces\IEntity3D.cs" />
     <Compile Include="ThreeDimensional\Skybox.cs" />
     <Compile Include="Utils\SpriteBatchOptions.cs" />
     <Compile Include="Core\Geometry\RectangularPrism.cs" />
@@ -102,7 +109,7 @@
     <Compile Include="Core\Scenes\ISceneTransition.cs" />
     <Compile Include="Core\Scenes\Scene.cs" />
     <Compile Include="Core\Scenes\SceneManager.cs" />
-    <Compile Include="ThreeDimensional\ThreeDimensional.cs" />
+    <Compile Include="ThreeDimensional\Entity3D.cs" />
     <Compile Include="Core\Interfaces\ICollisionEntity.cs" />
     <Compile Include="Core\Interfaces\IEntity.cs" />
     <Compile Include="Core\Interfaces\IQuadObject.cs" />

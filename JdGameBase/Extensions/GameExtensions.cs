@@ -1,19 +1,17 @@
-// Project: JdGameBase
-// Filename: GameExtensions.cs
-// 
-// Author: Jason Recillo
-
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Runtime.InteropServices;
 
 using JdGameBase.Core.Geometry;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+
+using WinForms = System.Windows.Forms;
+using WinDrawing = System.Drawing;
 
 namespace JdGameBase.Extensions {
     public static class GameExtensions {
@@ -191,24 +189,25 @@ namespace JdGameBase.Extensions {
         #endregion
 
 #if WINDOWS
+
         #region Mouse
-        [DllImport("user32.dll")]
-        public static extern bool ClipCursor(ref Rectangle lpRect);
 
         [DebuggerHidden]
-        public static void ClipCursor(this Game game) {
-            var window = new Rectangle(game.Window.ClientBounds.Left,
-                                       game.Window.ClientBounds.Top,
-                                       game.Window.ClientBounds.Right,
-                                       game.Window.ClientBounds.Bottom);
-            ClipCursor(ref window);
+        public static void ConstrainMouseInWindow(this Game game, bool clipWindow = true) {
+            if (clipWindow) {
+                WinForms.Cursor.Clip = new WinDrawing.Rectangle(game.Window.ClientBounds.Left,
+                                                                game.Window.ClientBounds.Top,
+                                                                game.Window.ClientBounds.Right,
+                                                                game.Window.ClientBounds.Bottom);
+            } else
+                WinForms.Cursor.Clip = WinDrawing.Rectangle.Empty;
         }
 
         [DebuggerHidden]
-        public static void KeepMouseInWindow(this Game game) {
-            var center = game.Window.ClientBounds.Center;
-            Mouse.SetPosition(center.X, center.Y);
-            game.ClipCursor();
+        public static Vector2 CenterMouse(this Game game, MouseState ms) {
+            var center = game.GraphicsDevice.Viewport.Bounds.CenterVector();
+            Mouse.SetPosition(center.X.ToNearestInt(), center.Y.ToNearestInt());
+            return ms.GetPosition() - center;
         }
 
         [DebuggerHidden]
@@ -222,6 +221,7 @@ namespace JdGameBase.Extensions {
         }
 
         #endregion
+
 #endif
 
         [DebuggerHidden]

@@ -1,9 +1,7 @@
-﻿// Project: JdGameBase
-// Filename: Vector3Interpolator.cs
-// 
-// Author: Jason Recillo
-
-using System;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 
 using Microsoft.Xna.Framework;
 

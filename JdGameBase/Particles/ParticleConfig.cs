@@ -1,9 +1,7 @@
-﻿// Project: JdGameBase
-// Filename: ParticleConfig.cs
-// 
-// Author: Jason Recillo
-
-using System;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 
 using Microsoft.Xna.Framework;
 
@@ -118,6 +116,11 @@ namespace JdGameBase.Particles {
         #region Velocity
 
         /// <summary>
+        /// Whether or not the particle should change its velocity over time.
+        /// </summary>
+        public bool VelocityInterpolate;
+
+        /// <summary>
         /// The velocity this particle should reach by the end of its lifetime. Has no effect if VelocityInterpolate is false.
         /// </summary>
         public Vector2 TargetVelocity { get; set; }
@@ -126,11 +129,6 @@ namespace JdGameBase.Particles {
         /// This particle's initial velocity.
         /// </summary>
         public Vector2 Velocity { get; set; }
-
-        /// <summary>
-        /// Whether or not the particle should change its velocity over time.
-        /// </summary>
-        public bool VelocityInterpolate;
 
         #endregion
     }

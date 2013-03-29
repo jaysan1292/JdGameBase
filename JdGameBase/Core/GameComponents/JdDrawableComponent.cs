@@ -1,9 +1,4 @@
-﻿// Project: JdGameBase
-// Filename: JdDrawableComponent.cs
-// 
-// Author: Jason Recillo
-
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,10 +10,10 @@ using Microsoft.Xna.Framework;
 
 namespace JdGameBase.Core.GameComponents {
     public class JdDrawableComponent : DrawableGameComponent {
-        public new JdGame Game { get { return (JdGame) base.Game; } }
-
         public JdDrawableComponent(JdGame game)
             : base(game) { }
+
+        public new JdGame Game { get { return (JdGame) base.Game; } }
 
         public override void Update(GameTime gameTime) {
             var delta = Game.GetService<TimeScaleManager>().UpdateTimescale(gameTime);

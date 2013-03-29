@@ -1,11 +1,8 @@
-﻿// Project: JdGameBase
-// Filename: CommandManager.cs
-// 
-// Author: Jason Recillo
-
-using System;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 
 using JdGameBase.Core.Interfaces;
 using JdGameBase.Extensions;

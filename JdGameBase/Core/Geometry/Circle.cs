@@ -1,10 +1,8 @@
-﻿// Project: JdGameBase
-// Filename: Circle.cs
-// 
-// Author: Jason Recillo
-
-using System;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 
 using Microsoft.Xna.Framework;
 
@@ -24,9 +22,9 @@ namespace JdGameBase.Core.Geometry {
         /// </summary> 
         public float Radius;
 
-        private Vector2 _v;
         private Vector2 _direction;
         private float _distanceSquared;
+        private Vector2 _v;
 
         /// <summary>
         /// Constructs a new circle.

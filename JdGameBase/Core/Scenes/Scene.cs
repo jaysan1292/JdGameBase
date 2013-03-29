@@ -1,9 +1,4 @@
-﻿// Project: JdGameBase
-// Filename: Scene.cs
-// 
-// Author: Jason Recillo
-
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,6 +24,7 @@ namespace JdGameBase.Core.Scenes {
         public SceneState CurrentState { get; private set; }
         public GraphicsDevice GraphicsDevice { get { return Parent.GraphicsDevice; } }
         public JdGame Game { get { return Parent.Game; } }
+
         #endregion
 
         public Scene(string name) {
@@ -38,6 +34,7 @@ namespace JdGameBase.Core.Scenes {
         public virtual void Initialize() { }
 
         public virtual void LoadContent(ContentManager content) { }
+        public virtual void UnloadContent() { }
 
         /// <summary>
         /// Called when this scene should pause itself.
@@ -81,9 +78,9 @@ namespace JdGameBase.Core.Scenes {
         /// </summary>
         /// <param name="delta">The amount of time since the last update.</param>
         /// <param name="player">The player associated with the current gamepad.</param>
-        /// <param name="gs">The current gamepad state.</param>
+        /// <param name="gps">The current gamepad state.</param>
         /// <param name="old">The gamepad state from the last update.</param>
-        public virtual void HandleGamePadInput(float delta, PlayerIndex player, GamePadState gs, GamePadState old) { }
+        public virtual void HandleGamePadInput(float delta, PlayerIndex player, GamePadState gps, GamePadState old) { }
 
         /// <summary>
         /// Handles keyboard input.

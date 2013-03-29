@@ -1,9 +1,7 @@
-﻿// Project: JdGameBase
-// Filename: Sprite.cs
-// 
-// Author: Jason Recillo
-
-using System;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 
 using JdGameBase.Core.Interfaces;
 
@@ -19,22 +17,18 @@ namespace JdGameBase.Graphics {
 
         private Color _color = Color.White;
         private SpriteEffects _effects = SpriteEffects.None;
-        private float _layerDepth;
         private Vector2 _origin = Vector2.Zero;
-        private Vector2 _position;
-        private float _rotation;
         private float _scale = 1f;
-        private Rectangle? _sourceRect;
         [ContentSerializerIgnore] private Texture2D _texture;
 
         public Color Color { get { return _color; } set { _color = value; } }
         public SpriteEffects Effects { get { return _effects; } set { _effects = value; } }
-        public float LayerDepth { get { return _layerDepth; } set { _layerDepth = value; } }
+        public float LayerDepth { get; set; }
         public Vector2 Origin { get { return _origin; } set { _origin = value; } }
-        public Vector2 Position { get { return _position; } set { _position = value; } }
-        public float Rotation { get { return _rotation; } set { _rotation = value; } }
+        public Vector2 Position { get; set; }
+        public float Rotation { get; set; }
         public float Scale { get { return _scale; } set { _scale = value; } }
-        public Rectangle? SourceRect { get { return _sourceRect; } set { _sourceRect = value; } }
+        public Rectangle? SourceRect { get; set; }
         public Texture2D Texture { get { return _texture; } set { _texture = value; } }
 
         public float Width { get { return Texture.Width * Scale; } }

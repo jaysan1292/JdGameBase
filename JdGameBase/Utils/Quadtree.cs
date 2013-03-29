@@ -1,10 +1,7 @@
-﻿// Project: JdGameBase
-// Filename: Quadtree.cs
-// 
-// Author: Jason Recillo
-
-using System;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 using JdGameBase.Core.Interfaces;
 using JdGameBase.Extensions;
@@ -20,9 +17,9 @@ namespace JdGameBase.Utils {
         private readonly Quadtree<TEntity>[] _nodes;
         private readonly List<TEntity> _objects;
         private Rectangle _bounds;
+        private bool _initialized;
         private int _maxLevels;
         private int _maxObjects;
-        private bool _initialized;
 
         public Quadtree(int level, Rectangle bounds) {
             _level = level;

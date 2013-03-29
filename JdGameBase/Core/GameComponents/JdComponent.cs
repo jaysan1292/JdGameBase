@@ -1,12 +1,6 @@
-﻿// Project: JdGameBase
-// Filename: JdComponent.cs
-// 
-// Author: Jason Recillo
-
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 
 using JdGameBase.Core.Services;
@@ -19,17 +13,12 @@ namespace JdGameBase.Core.GameComponents {
         public JdComponent(JdGame game)
             : base(game) { }
 
+        public new JdGame Game { get { return (JdGame) base.Game; } }
+
         public override void Update(GameTime gameTime) {
             var delta = Game.GetService<TimeScaleManager>().UpdateTimescale(gameTime);
             Update(delta, gameTime);
             base.Update(gameTime);
-        }
-
-        public new JdGame Game {
-            get {
-                Debug.Assert(base.Game is JdGame);
-                return (JdGame) base.Game;
-            }
         }
 
         /// <summary>

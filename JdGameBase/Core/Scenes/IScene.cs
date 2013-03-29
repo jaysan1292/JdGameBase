@@ -1,9 +1,4 @@
-﻿// Project: JdGameBase
-// Filename: IScene.cs
-// 
-// Author: Jason Recillo
-
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -58,6 +53,7 @@ namespace JdGameBase.Core.Scenes {
         #endregion
 
         void LoadContent(ContentManager content);
+        void UnloadContent();
 
         /// <summary>
         /// Called when this scene should pause itself.

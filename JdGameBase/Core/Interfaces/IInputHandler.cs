@@ -1,9 +1,7 @@
-﻿// Project: JdGameBase
-// Filename: IInputHandler.cs
-// 
-// Author: Jason Recillo
-
-using System;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace JdGameBase.Core.Interfaces {
     public interface IInputHandler : IGamePadHandler, IKeyboardHandler, IMouseHandler { }

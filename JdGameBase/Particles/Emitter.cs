@@ -1,10 +1,7 @@
-﻿// Project: JdGameBase
-// Filename: Emitter.cs
-// 
-// Author: Jason Recillo
-
-using System;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 using JdGameBase.Core;
 using JdGameBase.Extensions;

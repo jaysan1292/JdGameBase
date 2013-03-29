@@ -1,8 +1,3 @@
-﻿// Project: JdGameBase
-// Filename: MathExtensions.cs
-// 
-// Author: Jason Recillo
-
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -18,6 +13,16 @@ namespace JdGameBase.Extensions {
         private static readonly Random Random = new Random();
 
         #region General
+
+        [DebuggerHidden]
+        public static float LerpTo(this float v, float target, float amount) {
+            return MathHelper.Lerp(v, target, amount);
+        }
+
+        [DebuggerHidden]
+        public static float SlerpTo(this float v, float target, float amount) {
+            return MathHelper.SmoothStep(v, target, amount);
+        }
 
         [DebuggerHidden]
         public static float ToDegrees(this float f) {
@@ -150,6 +155,13 @@ namespace JdGameBase.Extensions {
         #endregion
 
         [DebuggerHidden]
+        public static Vector3 ForwardVector(this Quaternion q) {
+            var temp = new Quaternion(q.X, q.Y, q.Z, q.W);
+            temp.Conjugate();
+            return Vector3.Transform(Vector3.Forward, temp);
+        }
+
+        [DebuggerHidden]
         public static void ToYawPitchRoll(this Quaternion q, out float yaw, out float pitch, out float roll) {
             var x = q.X;
             var y = q.Y;
@@ -161,9 +173,49 @@ namespace JdGameBase.Extensions {
             roll = (float) Math.Atan2(2f * (x * y + w * z), w * w + x * x - y * y - z * z);
         }
 
+        [DebuggerHidden]
+        public static Vector3 ToEuler(this Quaternion q) {
+            var v = Vector3.Zero;
+
+            v.X = (float) Math.Atan2(2 * q.Y * q.W - 2 * q.X * q.Z,
+                                     1 - 2 * Math.Pow(q.Y, 2) - 2 * Math.Pow(q.Z, 2));
+
+            v.Y = (float) Math.Atan2(2 * q.X * q.W - 2 * q.Y * q.Z,
+                                     1 - 2 * Math.Pow(q.X, 2) - 2 * Math.Pow(q.Z, 2));
+
+            v.Z = (float) Math.Asin(2 * q.X * q.Y + 2 * q.Z * q.W);
+
+            if (Math.Abs(q.X * q.Y + q.Z * q.W - 0.5f) < float.Epsilon) {
+                v.X = (float) (2 * Math.Atan2(q.X, q.W));
+                v.Y = 0;
+            } else if (Math.Abs(q.X * q.Y + q.Z * q.W - (-0.5f)) < float.Epsilon) {
+                v.X = (float) (-2 * Math.Atan2(q.X, q.W));
+                v.Y = 0;
+            }
+
+            return v;
+        }
+
         #endregion
 
         #region Matrix
+
+        [DebuggerHidden]
+        public static Matrix LerpTo(this Matrix m, Matrix target, float amount) {
+            return Matrix.Lerp(m, target, amount);
+        }
+
+        [DebuggerHidden]
+        public static Matrix LookAt(Vector3 pos, Vector3 lookAt) {
+            var rot = new Matrix();
+
+            rot.Forward = (lookAt - pos).Normalized();
+            rot.Right = Vector3.Cross(rot.Forward, Vector3.Up).Normalized();
+            rot.Up = Vector3.Cross(rot.Right, rot.Forward).Normalized();
+
+            return rot;
+        }
+
         #endregion
 
         #region Rectangles
@@ -176,6 +228,11 @@ namespace JdGameBase.Extensions {
         [DebuggerHidden]
         public static int Perimeter(this Rectangle rectangle) {
             return rectangle.Width * 2 + rectangle.Height * 2;
+        }
+
+        [DebuggerHidden]
+        public static Vector2 Size(this Rectangle rect) {
+            return new Vector2(rect.Width, rect.Height);
         }
 
         [DebuggerHidden]
@@ -320,6 +377,26 @@ namespace JdGameBase.Extensions {
         #region Vector2
 
         [DebuggerHidden]
+        public static Vector2 LerpTo(this Vector2 v, Vector2 target, float amount) {
+            return Vector2.Lerp(v, target, amount);
+        }
+
+        [DebuggerHidden]
+        public static Vector2 SlerpTo(this Vector2 v, Vector2 target, float amount) {
+            return Vector2.SmoothStep(v, target, amount);
+        }
+
+        [DebuggerHidden]
+        public static Vector2 Direction(this Vector2 origin, Vector2 dest) {
+            return (dest - origin).Normalized();
+        }
+
+        [DebuggerHidden]
+        public static Vector2 Normalized(this Vector2 v) {
+            return v != Vector2.Zero ? Vector2.Normalize(v) : Vector2.Zero;
+        }
+
+        [DebuggerHidden]
         public static Vector2 Wrap(this Vector2 v, Vector2 amount, Vector2 max) {
             return new Vector2((v.X + amount.X) % max.X,
                                (v.Y + amount.Y) % max.Y);
@@ -389,6 +466,34 @@ namespace JdGameBase.Extensions {
         #region Vector3
 
         [DebuggerHidden]
+        public static Vector3 LerpTo(this Vector3 v, Vector3 target, float amount) {
+            return Vector3.Lerp(v, target, amount);
+        }
+
+        [DebuggerHidden]
+        public static Vector3 SlerpTo(this Vector3 v, Vector3 target, float amount) {
+            return Vector3.SmoothStep(v, target, amount);
+        }
+
+        [DebuggerHidden]
+        public static Vector3 Direction(this Vector3 origin, Vector3 destination) {
+            return (destination - origin).Normalized();
+        }
+
+        [DebuggerHidden]
+        public static Vector3 Normalized(this Vector3 v) {
+            return v != Vector3.Zero ? Vector3.Normalize(v) : Vector3.Zero;
+        }
+
+        [DebuggerHidden]
+        public static float AngleBetween(this Vector3 from, Vector3 to) {
+            from.Normalize();
+            to.Normalize();
+
+            return (float) Math.Acos(Vector3.Dot(from, to));
+        }
+
+        [DebuggerHidden]
         public static Vector3 Offset(this Vector3 v, Vector3 amount) {
             return Vector3.Add(v, amount);
         }
@@ -406,6 +511,21 @@ namespace JdGameBase.Extensions {
         #endregion
 
         #region Vector4
+
+        [DebuggerHidden]
+        public static Vector4 LerpTo(this Vector4 v, Vector4 target, float amount) {
+            return Vector4.Lerp(v, target, amount);
+        }
+
+        [DebuggerHidden]
+        public static Vector4 SlerpTo(this Vector4 v, Vector4 target, float amount) {
+            return Vector4.SmoothStep(v, target, amount);
+        }
+
+        [DebuggerHidden]
+        public static Vector4 Normalized(this Vector4 v) {
+            return v != Vector4.Zero ? Vector4.Normalize(v) : Vector4.Zero;
+        }
 
         [DebuggerHidden]
         public static Vector3 ToVector3(this Vector4 v) {
